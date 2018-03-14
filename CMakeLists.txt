@@ -1,18 +1,18 @@
 cmake_minimum_required( VERSION 2.8.9 )
 project( Proj LANGUAGES CXX )
 
-# Adding compiler optimizations
+# Compiler stuff
 
 set( CMAKE_C_COMPILER /usr/bin/clang )
 set( CMAKE_CXX_COMPILER /usr/bin/clang++ )
 
-set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17" )
+set( CMAKE_CXX_STANDARD 17 )
 set( CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O3" )
 set( CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -mavx2 -mfma" )
 
-# Adding includes
+# Adding include directory for audio
 
-include_directories("ext/fmod/4.3")
+include_directories( "ext/fmod/4.3" )
 
 # Linking libraries
 
