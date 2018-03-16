@@ -5,7 +5,7 @@
 ORIGIN=$(pwd)
 
 DEFAULT_CMAKE_BUILD_DIR="build"
-BUILD_SUBDIR_NAME=".build_files"
+EXEC_NAME="cstrike64"
 
 CMAKE_BUILD_DIR=${1}
 OUTPUT_DIR=${2}
@@ -23,21 +23,13 @@ mkdir -p ${CMAKE_BUILD_DIR}/debug
 ## BUILD
 
 # Release
-cd ${CMAKE_BUILD_DIR}/release
-mkdir -p ${BUILD_SUBDIR_NAME}
-cd ${BUILD_SUBDIR_NAME}
-cmake -DCMAKE_BUILD_TYPE=Release ../../..
+cd ${ORIGIN}/${CMAKE_BUILD_DIR}/release
+cmake -DCMAKE_BUILD_TYPE=Release ${ORIGIN}
 make
-mv prog ..
-cd ..
-objdump -dC prog > prog.asm
+objdump -dC ${EXEC_NAME} > ${EXEC_NAME}.asm
 
 # Debug
-cd ../debug
-mkdir -p ${BUILD_SUBDIR_NAME}
-cd ${BUILD_SUBDIR_NAME}
-cmake -DCMAKE_BUILD_TYPE=Debug ../../..
+cd ${ORIGIN}/${CMAKE_BUILD_DIR}/debug
+cmake -DCMAKE_BUILD_TYPE=Debug ${ORIGIN}
 make
-mv prog ..
-cd ../
-objdump -dC prog > prog.asm
+objdump -dC ${EXEC_NAME} > ${EXEC_NAME}.asm

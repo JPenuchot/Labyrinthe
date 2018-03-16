@@ -16,13 +16,13 @@ include_directories( "ext/fmod/4.3" )
 
 # Linking libraries
 
-link_directories( "ext/jpeg/" )
-link_libraries( "GL" "GLU" "glut" "jpeg" "m" )
+link_directories( "ext/jpeg/" "ext/fmod/4.3/" "obj/")
+link_libraries( "GL" "GLU" "glut" "jpeg" "m" "libfmodex64.so" )
 
 # Adding sources
 
 # Pre-compiled objects
-set( OBJS "obj/OpenGL64.o" "ext/fmod/4.3/libfmodex64.so" )
+set( OBJS "obj/OpenGL64.o" )
 set_source_files_properties( ${OBJS} PROPERTIES
   EXTERNAL_OBJECT true
   GENERATED true
@@ -33,7 +33,7 @@ add_library( Labyrinthe OBJECT "src/Labyrinthe.cpp" )
 add_library( Chasseur   OBJECT "src/Chasseur.cpp" )
 
 # Final executable
-add_executable( prog
+add_executable( cstrike64
   ${OBJS}
   $<TARGET_OBJECTS:Labyrinthe>
   $<TARGET_OBJECTS:Chasseur>
