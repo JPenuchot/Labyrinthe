@@ -7,7 +7,7 @@ set( CMAKE_C_COMPILER /usr/bin/clang )
 set( CMAKE_CXX_COMPILER /usr/bin/clang++ )
 
 set( CMAKE_CXX_STANDARD 17 )
-set( CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O3" )
+set( CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O1" )
 set( CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -mavx2 -mfma" )
 
 # Adding include directory for audio
@@ -16,7 +16,7 @@ include_directories( "ext/fmod/4.3" )
 
 # Linking libraries
 
-link_directories( "ext/jpeg/" "ext/fmod/4.3/" "obj/")
+link_directories( "ext/jpeg/" "ext/fmod/4.3/" "obj/" )
 link_libraries( "GL" "GLU" "glut" "jpeg" "m" "libfmodex64.so" )
 
 # Adding sources
