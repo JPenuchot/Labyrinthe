@@ -1,5 +1,4 @@
-#ifndef ENVIRONNEMENT_H
-#define ENVIRONNEMENT_H
+#pragma once
 
 /*
  *	Traduit un fichier de type définition de labyrinthe au format interne.
@@ -9,6 +8,18 @@
 
 extern void message (const char* format, ...);
 class Mover;
+
+enum Element {
+	//	Labyrinth walls
+	wall_corner = '+',
+	wall_vertical = '|',
+	wall_horizontal = '-',
+	
+	//	Entities
+	hunter = 'C',
+	guardian = 'G',
+	treasure = 'T'
+};
 
 struct Wall {
 	int	_x1, _y1;	// point de depart.
@@ -27,7 +38,8 @@ public:
 	static const char* texture_dir;	// répertoire des textures.
 	static const char* modele_dir;	// répertoire des personnages.
 /*
- * la fonction de création du labyrinthe à définir DANS Labyrinthe.cpp de la façon suivante:
+ * la fonction de création du labyrinthe à définir
+ * DANS Labyrinthe.cpp de la façon suivante:
  * 
  * Environnement* Environnement::init (char* filename) {
  *	return new Labyrinthe (filename);
@@ -60,5 +72,3 @@ public:
 	// fonction a n'appeller QUE si des gardiens sont recréés.
 	void make_fireballs (void);
 };
-
-#endif
