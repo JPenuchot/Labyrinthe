@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include <iostream>
 #include <vector>
 #include <string>
@@ -24,31 +25,24 @@ namespace labyrinth::utils
     Wall wallval = { 0, 0, 0, 0, 0 };
     bool inWall = false;
     
-    //  On déclare l'action effectuée à la rencontre d'un coin
-    //  ici pour alléger la boucle par la suite.
+    //  On declare l'action effectuee a la rencontre d'un coin
+    //  ici pour alleger la boucle par la suite.
     const auto toggleWall = [&](int x, int y)
     {
       if(inWall)
-      {
-        wallval._x2 = x; wallval._y2 = y;
-        walls.push_back(wallval);
-        inWall = !inWall;
-      }
+        { wallval._x2 = x; wallval._y2 = y; walls.push_back(wallval); }
       else
-      {
-        //  On détermine la borne du labyrinthe (une fois seulement)
-        
-
-        wallval._x1 = x; wallval._y1 = y;
-        inWall = !inWall;
-      }
+        { wallval._x1 = x; wallval._y1 = y; }
+      inWall = !inWall;
     };
 
     auto addVertTex = [&](int x, int y, int id)
       { cout << "Ajout des textures indisponible." << '\n'; };  //  TODO
     auto addHoriTex = [&](int x, int y, int id)
       { cout << "Ajout des textures indisponible." << '\n'; };  //  TODO
-    
+
+    function<void(int, int, int)> addTex = addHoriTex;
+
     //  Parcours horizontal
     for(size_t lncnt = 0; lncnt < mapvec.size(); lncnt++)
     {
@@ -85,5 +79,13 @@ namespace labyrinth::utils
 
     //  Parcours vertical
 
+    addTex = addVertTex;
+    for(int j = 0; j < lab.width(); j++)
+    {
+      for(int i = 0; i < lab.height(); i++)
+      {
+        //  TODO
+      }
+    }
   }
 };

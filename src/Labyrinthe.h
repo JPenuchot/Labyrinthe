@@ -13,8 +13,8 @@ private:
   vector<Wall>  wall_vec;
   vector<Wall>  picts_vec;
   vector<Box>   boxes_vec;
-  vector<Box>   treasures_vec;
   vector<Mover> guardians_vec;
+  Box   treasure;
 
   size_t w;
   size_t h;
