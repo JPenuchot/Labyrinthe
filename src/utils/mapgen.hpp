@@ -8,6 +8,7 @@
 #include <set>
 
 #include "../Environnement.h"
+#include "../Labyrinthe.h"
 
 namespace labyrinth::utils
 {
@@ -17,6 +18,7 @@ namespace labyrinth::utils
     ( vector<vector<char>>& mapvec
     , tuple<set<char>, map<char, string>, map<char, int>>& spray_info
     , vector<Wall>& walls
+    , Labyrinthe& lab
     )
   {
     Wall wallval = { 0, 0, 0, 0, 0 };
@@ -53,6 +55,8 @@ namespace labyrinth::utils
       for(size_t charcnt = 0; charcnt < mapvec[lncnt].size(); charcnt++)
       {
         auto curr_char = mapvec[lncnt][charcnt];
+        lab(lncnt, charcnt) = curr_char;
+
         switch(curr_char)
         {
           case Element::wall_corner: {
@@ -67,7 +71,7 @@ namespace labyrinth::utils
           case Element::treasure: {
             cout << "Ajout des tresors indisponible." << '\n';    //  TODO
           } break;
-          
+          case Element::empty: break;
           default: {
             cout << "Lecture de caractere arbitraire : TODO" << '\n'; //  TODO
           } break;
@@ -80,7 +84,6 @@ namespace labyrinth::utils
     }
 
     //  Parcours vertical
-
 
   }
 };

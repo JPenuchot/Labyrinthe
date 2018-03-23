@@ -11,14 +11,20 @@ class Mover;
 
 enum Element {
 	//	Labyrinth walls
-	wall_corner = '+',
-	wall_vertical = '|',
+	wall_corner			= '+',
+	wall_vertical 	= '|',
 	wall_horizontal = '-',
 	
-	//	Entities
-	hunter = 'C',
-	guardian = 'G',
-	treasure = 'T'
+	//	NPCs
+	hunter 					= 'C',
+	guardian				= 'G',
+	
+	//	Map elements
+	box							= 'x',
+	treasure				= 'T',
+
+	//	Other
+	empty 					= ' '
 };
 
 struct Wall {
