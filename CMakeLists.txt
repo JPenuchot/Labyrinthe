@@ -3,8 +3,8 @@ project( Proj LANGUAGES CXX )
 
 # Compiler stuff
 
-set( CMAKE_C_COMPILER /usr/bin/clang )
-set( CMAKE_CXX_COMPILER /usr/bin/clang++ )
+#set( CMAKE_C_COMPILER /usr/bin/clang )
+#set( CMAKE_CXX_COMPILER /usr/bin/clang++ )
 
 set( CMAKE_CXX_STANDARD 17 )
 set( CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O1" )
