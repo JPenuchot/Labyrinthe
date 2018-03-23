@@ -1,8 +1,11 @@
 #pragma once
 
+#include <iostream>
 #include <vector>
 #include <string>
-#include <iostream>
+#include <tuple>
+#include <map>
+#include <set>
 
 #include "../Environnement.h"
 
@@ -12,27 +15,36 @@ namespace labyrinth::utils
 
   void parse_level
     ( vector<vector<char>>& mapvec
-    , vector<string>& maptxt
-    , vector<Wall>& res
+    , vector<string>& maptxt  
+    , tuple<set<char>, map<char, string>, map<char, int>>& spray_info
+    , vector<Wall>& walls
     )
   {
     Wall wallval = { 0, 0, 0, 0, 0 };
     bool inWall = false;
+    
+    //  Détermine la borne du labyrinthe
+    int begin_x = -1;
 
     int max_hori = 0;
     
-    //  Action effectuée à la rencontre d'un coin de mur
+    //  On déclare l'action effectuée à la rencontre d'un coin
+    //  ici pour alléger la boucle par la suite.
     const auto toggleWall = [&](int x, int y)
     {
-      if(inWall) 
+      cout << "Ajout de mur...\n";
+      if(inWall)
       {
-        wallval._x2 = x; wallval._y2 = y;
-        res.push_back(wallval);
+        wallval._x2 = x - begin_x; wallval._y2 = y;
+        walls.push_back(wallval);
         inWall = !inWall;
       }
       else
       {
-        wallval._x1 = x; wallval._y1 = y;
+        //  On détermine la borne du labyrinthe (une fois seulement)
+        begin_x = begin_x == -1 ? x : begin_x;
+
+        wallval._x1 = x - begin_x; wallval._y1 = y;
         inWall = !inWall;
       }
     };
@@ -45,6 +57,8 @@ namespace labyrinth::utils
     //  Parcours horizontal
     for(size_t lncnt = 0; lncnt < mapvec.size(); lncnt++)
     {
+      //  On vérifie que ce n'est pas une ligne d'infos
+
       max_hori = max_hori < mapvec[lncnt].size()
         ? mapvec[lncnt].size()
         : max_hori;
@@ -70,8 +84,11 @@ namespace labyrinth::utils
           default: {
             cout << "Lecture de caractere arbitraire : TODO" << '\n'; //  TODO
           } break;
-
         }
+
+        //  On retourne une erreur si on n'a pas vu
+        //  de coin de mur avant la fin de la ligne
+        if(inWall) throw runtime_error("lol");
       }
     }
 
