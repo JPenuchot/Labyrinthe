@@ -6,6 +6,24 @@
 
 using namespace std;
 
+enum Element {
+  //  Labyrinth walls
+  wall_corner     = '+',
+  wall_vertical   = '|',
+  wall_horizontal = '-',
+  
+  //  NPCs
+  hunter          = 'C',
+  guardian        = 'G',
+  
+  //  Map elements
+  box             = 'x',
+  treasure        = 'T',
+
+  //  Other
+  empty           = ' '
+};
+
 class Labyrinthe : public Environnement {
 private:
 	vector<char> table;

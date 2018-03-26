@@ -9,24 +9,6 @@
 extern void message (const char* format, ...);
 class Mover;
 
-enum Element {
-	//	Labyrinth walls
-	wall_corner			= '+',
-	wall_vertical 	= '|',
-	wall_horizontal = '-',
-	
-	//	NPCs
-	hunter 					= 'C',
-	guardian				= 'G',
-	
-	//	Map elements
-	box							= 'x',
-	treasure				= 'T',
-
-	//	Other
-	empty 					= ' '
-};
-
 struct Wall {
 	int	_x1, _y1;	// point de depart.
 	int	_x2, _y2;	// point d'arrivee.
