@@ -18,8 +18,6 @@ Environnement* Environnement::init (char* filename)
 
 Labyrinthe::Labyrinthe (char* filename)
 {
-  cout << "Début de lecture du fichier.\n";
-
   ifstream file(filename);
   
   vector<vector<char>> mapvec;
@@ -79,29 +77,31 @@ Labyrinthe::Labyrinthe (char* filename)
       labwidth = max(labwidth, line_clean.size());
       labheight++;
     }
-
-    this->table.resize(labwidth * labheight, ' ');
-    this->w = labwidth;
-    this->h = labheight;
-
-    //labyrinth::utils::parse_level
-    //  ( mapvec
-    //  , spray_info
-    //  )
-    this->_walls    = this->wall_vec.data();
-    this->_nwall    = this->wall_vec.size();
-    
-    this->_picts    = this->picts_vec.data();
-    this->_npicts   = this->picts_vec.size();
-    
-    this->_boxes    = this->boxes_vec.data();
-    this->_nboxes   = this->boxes_vec.size();
-    
-    //this->_treasor  = treasure; TODO
-
-    //  Cas des gardiens
-    this->_guards = new (Mover*);
-    *(this->_guards)   = this->guardians_vec.data();
-    this->_nguards  = this->guardians_vec.size();
   }
+
+  this->table.resize(labwidth * labheight, ' ');
+  this->w = labwidth;
+  this->h = labheight;
+
+  //labyrinth::utils::parse_level
+  //  ( mapvec
+  //  , spray_info
+  //  )
+  this->_walls    = this->wall_vec.data();
+  this->_nwall    = this->wall_vec.size();
+    
+  this->_picts    = this->picts_vec.data();
+  this->_npicts   = this->picts_vec.size();
+    
+  this->_boxes    = this->boxes_vec.data();
+  this->_nboxes   = this->boxes_vec.size();
+    
+  //this->_treasor  = treasure; TODO
+
+  //  Cas des gardiens
+  this->_guards = new (Mover*);
+  *(this->_guards)   = this->guardians_vec.data();
+  this->_nguards  = this->guardians_vec.size();
+
+  cout << "Fichier lu.\n";
 }
