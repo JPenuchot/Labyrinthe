@@ -1,5 +1,4 @@
-#ifndef CHASSEUR_H
-#define CHASSEUR_H
+#pragma once
 
 #include <stdio.h>
 #include "Mover.h"
@@ -16,8 +15,8 @@ public:
 	 *	Le son...
 	 */
 	static Sound*	_hunter_fire;	// bruit de l'arme du chasseur.
-	static Sound*	_hunter_hit;	// cri du chasseur touché.
-	static Sound*	_wall_hit;		// on a tapé un mur.
+	static Sound*	_hunter_hit;	// cri du chasseur touche.
+	static Sound*	_wall_hit;		// on a tape un mur.
 
 	Chasseur (Labyrinthe* l);
 	// ne bouger que dans une case vide (on 'glisse' le long des obstacles)
@@ -26,10 +25,8 @@ public:
 	}
 	// le chasseur ne pense pas!
 	void update (void) {};
-	// fait bouger la boule de feu (ceci est une exemple, à vous de traiter les collisions spécifiques...)
+	// fait bouger la boule de feu (ceci est une exemple, a vous de traiter les collisions specifiques...)
 	bool process_fireball (float dx, float dy);
 	// tire sur un ennemi.
 	void fire (int angle_vertical);
 };
-
-#endif
