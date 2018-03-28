@@ -20,19 +20,13 @@ enum Element {
   box             = 'x',
   treasure        = 'T',
 
-  //  Other
+  //  Emptiness...
   empty           = ' '
 };
 
 class Labyrinthe : public Environnement {
 private:
   vector<char> table;
-
-  Box           treasure;
-  vector<Box>   boxes_vec;
-  vector<Wall>  wall_vec;
-  vector<Wall>  picts_vec;
-  vector<Mover> guardians_vec;
 
   size_t w;
   size_t h;
@@ -43,4 +37,6 @@ public:
   int height ()                   { return h; }
   char data (int i, int j)        { return table[i * w + j]; }
   char& operator() (int i, int j) { return table[i * w + j]; }
+
+  ~Labyrinthe() { }
 };

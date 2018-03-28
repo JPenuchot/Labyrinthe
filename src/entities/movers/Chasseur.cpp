@@ -20,12 +20,11 @@ bool Chasseur::move_aux (double dx, double dy)
  *  Constructeur.
  */
 
-Chasseur::Chasseur (Labyrinthe* l) : Mover (100, 80, l, 0)
+Chasseur::Chasseur (Labyrinthe* l) : Mover (100, 80, l, "modele/Marvin.md2")
 {
-  _hunter_fire  = new Sound ("sons/hunter_fire.wav");
-  _hunter_hit   = new Sound ("sons/hunter_hit.wav");
-  if (_wall_hit == 0)
-    _wall_hit   = new Sound ("sons/hit_wall.wav");
+  if(!_hunter_fire) _hunter_fire  = new Sound ("sons/hunter_fire.wav");
+  if(!_hunter_hit)  _hunter_hit   = new Sound ("sons/hunter_hit.wav");
+  if(!_wall_hit)    _wall_hit     = new Sound ("sons/hit_wall.wav");
 }
 
 /*

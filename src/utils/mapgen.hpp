@@ -21,11 +21,12 @@ namespace labyrinth::utils
   void parse_level
     ( vector<vector<char>>& mapvec
     , tuple<set<char>, map<char, string>, map<char, int>>& spray_info
-    , Labyrinthe&           lab
-    , vector<Wall>&         walls
-    , vector<Box>&          boxes
-    , vector<Mover>&        movers
-    , Box&                  treasure
+    , Labyrinthe&     lab
+    , vector<Wall>&   walls
+    , vector<Wall>&   sprites
+    , vector<Box>&    boxes
+    , vector<Mover*>& movers
+    , Box&            treasure
     )
   {    
     auto& charSet = get<0>(spray_info);
@@ -41,6 +42,8 @@ namespace labyrinth::utils
     Wall wallval = { 0, 0, 0, 0, 0 };
     bool inWall = false;
 
+    int wallcnt = 0;
+
     //  On definit l'action effectuee a la rencontre d'un
     //  coin ici pour alleger les boucles par la suite.
     const auto toggleWall = [&](int x, int y)
@@ -52,7 +55,8 @@ namespace labyrinth::utils
         wallval._y1 = y;
       }
       else        //  Fermeture du mur
-      { 
+      {
+        wallcnt++;
         //  On definit la fin
         wallval._x2 = x;
         wallval._y2 = y;
@@ -65,10 +69,10 @@ namespace labyrinth::utils
     const auto abortWall = [&]() { inWall = false; };
 
     const auto addVertTex = [&](int x, int y, int id)
-      { walls.push_back({ x , y , x , y + 1 , id }); };
+      { sprites.push_back({ x , y , x , y + 1 , id }); };
     
     const auto addHoriTex = [&](int x, int y, int id)
-      { walls.push_back({ x , y , x + 1 , y , id }); };
+      { sprites.push_back({ x , y , x + 1 , y , id }); };
 
     /*
      *    2/ PARCOURS HORIZONTAL
@@ -98,7 +102,6 @@ namespace labyrinth::utils
         //  ni une lettre de texture alors on deconstruit le mur.
         else if
          (  inWall
-        &&  curr_char != Element::wall_corner
         &&  curr_char != Element::wall_horizontal
         &&  charSet.find(curr_char) == charSet.end() )
           abortWall();
@@ -114,12 +117,10 @@ namespace labyrinth::utils
           switch(curr_char)
           {
             case Element::hunter: {
-              //Mover test(i, j, &lab, "");
               cout << "Ajout des chasseurs indisponible." << '\n';   //  TODO
             } break;
-            case Element::guardian: {
-              Gardien g(x, y, &lab);
-              movers.push_back(move(g));
+            case Element::guardian: {;
+              movers.push_back(new Gardien(x, y, &lab));
             } break;
             case Element::treasure: {
               treasure = { (int)x, (int)y, 0 };
@@ -129,11 +130,9 @@ namespace labyrinth::utils
             default: break;
           }
         }
-
-        //  On retourne une erreur si on n'a pas vu
-        //  de coin de mur avant la fin de la ligne
-        if(inWall) throw runtime_error("lol ur lab's brokn");
       }
+
+      if(inWall) throw runtime_error("Broken labyrinth: Wall not closed.\n");
     }
 
     /*
@@ -156,7 +155,7 @@ namespace labyrinth::utils
         //  A la rencontre d'autre chose qu'un coin de mur ou affiche
         else if
            (  inWall
-          &&  curr_char != Element::wall_horizontal
+          &&  curr_char != Element::wall_vertical
           &&  charSet.find(curr_char) == charSet.end() )
           abortWall();
 
@@ -164,6 +163,10 @@ namespace labyrinth::utils
         else if(inWall && charSet.find(curr_char) != charSet.end())
           addVertTex(i, j, idMap[curr_char]);
       }
+
+      if(inWall) throw runtime_error("Broken labyrinth: Wall not closed.\n");
     }
+
+    cout << wallcnt << " walls\n";
   }
 };

@@ -77,9 +77,10 @@ Labyrinthe::Labyrinthe (char* filename)
 
     //  On ajoute les couples (lettre * path) a spray_info
     if(regex_match(line_clean, match, descriptor))
-      add_spray ( match[1].str()[0] //  1er caractere du 1er groupe
-                , match[2]          //  2eme groupe entier
-                );
+      add_spray
+        ( match[1].str()[0] //  1er caractere du 1er groupe
+        , match[2]          //  2eme groupe entier
+        );
     
     //  On saute les lignes vides
     else if(regex_match(line_clean, match, spaces));
@@ -98,30 +99,35 @@ Labyrinthe::Labyrinthe (char* filename)
   this->w = labwidth;
   this->h = labheight;
 
+  vector<Wall>    wall_vec;
+  vector<Wall>    picts_vec;
+  vector<Box>     boxes_vec;
+  vector<Mover*>  guardians_vec;
+
   //  On lance le parsing sur tout le niveau (yay)
   labyrinth::utils::parse_level
-    ( mapvec
-    , spray_info
+    ( mapvec , spray_info
     , *this
-    , this->wall_vec
-    , this->boxes_vec
-    , this->guardians_vec
-    , this->treasure
+    , wall_vec , picts_vec
+    , boxes_vec , guardians_vec , this->_treasor
     );
 
-  this->_walls    = this->wall_vec.data();
-  this->_nwall    = this->wall_vec.size();
+  //  On copie les resultats sous le format de l'objet
 
-  this->_picts    = this->picts_vec.data();
-  this->_npicts   = this->picts_vec.size();
+  this->_nwall    = wall_vec.size();
+  this->_walls = (Wall*)malloc(sizeof(Wall) * wall_vec.size());
+  copy(wall_vec.begin(), wall_vec.end(), this->_walls);
 
-  this->_boxes    = this->boxes_vec.data();
-  this->_nboxes   = this->boxes_vec.size();
+  this->_npicts   = picts_vec.size();
+  this->_picts    = (Wall*)malloc(sizeof(Wall) * picts_vec.size());
+  copy(picts_vec.begin(), picts_vec.end(), this->_picts);
 
-  //this->_treasor  = treasure; TODO
+  this->_nboxes   = picts_vec.size();
+  this->_boxes    = (Box*)malloc(sizeof(Box) * boxes_vec.size());
+  copy(boxes_vec.begin(), boxes_vec.end(), this->_boxes);
 
-  //  Cas des gardiens
-  this->_guards = new (Mover*);
-  *(this->_guards)   = this->guardians_vec.data();
-  this->_nguards  = this->guardians_vec.size();
+  //  Cas special des gardiens
+  this->_nguards  = guardians_vec.size();
+  this->_guards   = (Mover**)malloc(sizeof(Mover*) * guardians_vec.size());
+  copy(guardians_vec.begin(), guardians_vec.end(), this->_guards);
 }
