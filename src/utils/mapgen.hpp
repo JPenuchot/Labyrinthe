@@ -2,8 +2,8 @@
 
 #include <functional>
 #include <iostream>
-#include <vector>
 #include <string>
+#include <vector>
 #include <tuple>
 #include <map>
 #include <set>
@@ -11,6 +11,7 @@
 #include "../Environnement.h"
 #include "../Labyrinthe.h"
 #include "../Chasseur.h"
+#include "../Gardien.h"
 #include "../Mover.h"
 
 namespace labyrinth::utils
@@ -34,13 +35,17 @@ namespace labyrinth::utils
      *    1/ PRE-DEFINITION DES ACTIONS
      */
 
+    auto i_to_x = [&](auto i) { return i * Environnement::scale; };
+    auto j_to_y = [&](auto j) { return j * Environnement::scale; };
+
     Wall wallval = { 0, 0, 0, 0, 0 };
     bool inWall = false;
 
     //  On definit l'action effectuee a la rencontre d'un
     //  coin ici pour alleger les boucles par la suite.
     const auto toggleWall = [&](int x, int y)
-    {
+    { 
+      //  Mise a l'echelle (voir declaration de s)
       if(!inWall) //  Ouverture du mur
       {
         wallval._x1 = x;
@@ -67,20 +72,27 @@ namespace labyrinth::utils
 
     /*
      *    2/ PARCOURS HORIZONTAL
+     *
+     *      - Ajout des murs horizontaux
+     *      - Ajout des **entites**
      */
 
-    for(size_t lncnt = 0; lncnt < mapvec.size(); lncnt++)
+    for(size_t i = 0; i < mapvec.size(); i++)
     {
-      for(size_t charcnt = 0; charcnt < mapvec[lncnt].size(); charcnt++)
+      for(size_t j = 0; j < mapvec[i].size(); j++)
       {
-        char curr_char = mapvec[lncnt][charcnt];
-        lab(lncnt, charcnt) = curr_char;
+        const auto x = i_to_x(i);
+        const auto y = j_to_y(j);
+
+        const char curr_char = mapvec[i][j];
+        
+        lab(i, j) = curr_char;
 
         //    2.1/ GESTION DES MURS/AFFICHES
 
         //  A la rencontre d'un coin de mur...
         if (curr_char == Element::wall_corner)
-          toggleWall(lncnt, charcnt);
+          toggleWall(i, j);
 
         //  Si le caractere lu n'est ni un mur horizontal, ni un coin,
         //  ni une lettre de texture alors on deconstruit le mur.
@@ -93,7 +105,7 @@ namespace labyrinth::utils
 
         //  Ajout d'une affiche
         else if(inWall && charSet.find(curr_char) != charSet.end())
-          addHoriTex(lncnt, charcnt, idMap[curr_char]);
+          addHoriTex(x, y, idMap[curr_char]);
 
         //    2.2/ GESTION DE L'AJOUT D'ENTITES
 
@@ -102,14 +114,15 @@ namespace labyrinth::utils
           switch(curr_char)
           {
             case Element::hunter: {
-              Mover test(i, j, &lab, "");
-              movers.push_back(test);
+              //Mover test(i, j, &lab, "");
+              cout << "Ajout des chasseurs indisponible." << '\n';   //  TODO
             } break;
             case Element::guardian: {
-              cout << "Ajout des gardiens indisponible." << '\n';   //  TODO
+              Gardien g(x, y, &lab);
+              movers.push_back(move(g));
             } break;
             case Element::treasure: {
-              cout << "Ajout des tresors indisponible." << '\n';    //  TODO
+              treasure = { (int)x, (int)y, 0 };
             } break;
             
             case Element::empty: break;
@@ -131,7 +144,10 @@ namespace labyrinth::utils
     {
       for(size_t i = 0; i < lab.height(); i++)
       {
-        auto curr_char = lab(i, j);
+        const auto x = i_to_x(i);
+        const auto y = j_to_y(j);
+
+        const char curr_char = lab(i, j);
 
         //  A la rencontre d'un coin de mur...
         if (curr_char == Element::wall_corner)

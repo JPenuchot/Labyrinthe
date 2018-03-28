@@ -94,22 +94,20 @@ Labyrinthe::Labyrinthe (char* filename)
     }
   }
 
-  vector<Mover> vm;
-
   this->table.resize(labwidth * labheight, ' ');
   this->w = labwidth;
   this->h = labheight;
 
   //  On lance le parsing sur tout le niveau (yay)
   labyrinth::utils::parse_level
-  ( mapvec
-  , spray_info
-  , *this
-  , this->wall_vec
-  , this->boxes_vec
-  , vm
-  , this->treasure
-  );
+    ( mapvec
+    , spray_info
+    , *this
+    , this->wall_vec
+    , this->boxes_vec
+    , this->guardians_vec
+    , this->treasure
+    );
 
   this->_walls    = this->wall_vec.data();
   this->_nwall    = this->wall_vec.size();
