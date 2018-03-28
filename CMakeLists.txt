@@ -30,8 +30,8 @@ set_source_files_properties( ${OBJS} PROPERTIES
 
 # Building object files
 add_library( Labyrinthe OBJECT "src/Labyrinthe.cpp" )
-add_library( Chasseur   OBJECT "src/Chasseur.cpp" )
-add_library( Gardien    OBJECT "src/Gardien.cpp" )
+add_library( Chasseur   OBJECT "src/entities/movers/Chasseur.cpp" )
+add_library( Gardien    OBJECT "src/entities/movers/Gardien.cpp" )
 
 # Final executable
 add_executable( cstrike64

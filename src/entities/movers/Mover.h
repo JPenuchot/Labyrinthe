@@ -2,8 +2,8 @@
 
 class Labyrinthe; // la (future) votre
 
-#include "FireBall.h"
-#include "Environnement.h"
+#include "../FireBall.h"
+#include "../../Environnement.h"
 
 class Mover {
 private:

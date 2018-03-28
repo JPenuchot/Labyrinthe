@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 #include "Mover.h"
-#include "Sound.h"
+#include "../../Sound.h"
 
 class Labyrinthe;
 

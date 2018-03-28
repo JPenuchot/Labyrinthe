@@ -4,8 +4,8 @@
 #include <regex>
 
 #include "Labyrinthe.h"
-#include "Chasseur.h"
-#include "Gardien.h"
+#include "entities/movers/Chasseur.h"
+#include "entities/movers/Gardien.h"
 
 #include "utils/mapgen.hpp"
 

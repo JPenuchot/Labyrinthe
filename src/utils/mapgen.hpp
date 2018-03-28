@@ -10,9 +10,9 @@
 
 #include "../Environnement.h"
 #include "../Labyrinthe.h"
-#include "../Chasseur.h"
-#include "../Gardien.h"
-#include "../Mover.h"
+#include "../entities/movers/Chasseur.h"
+#include "../entities/movers/Gardien.h"
+#include "../entities/movers/Mover.h"
 
 namespace labyrinth::utils
 {
