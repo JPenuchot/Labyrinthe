@@ -8,11 +8,11 @@
 #include <map>
 #include <set>
 
-#include "../Environnement.h"
-#include "../Labyrinthe.h"
 #include "../entities/movers/Chasseur.h"
 #include "../entities/movers/Gardien.h"
 #include "../entities/movers/Mover.h"
+#include "../Environnement.h"
+#include "../Labyrinthe.h"
 
 namespace labyrinth::mapgen
 {
@@ -36,28 +36,26 @@ namespace labyrinth::mapgen
      *    1/ PRE-DEFINITION DES ACTIONS
      */
 
+    //  Mur en cours de construction
     Wall wallval = { 0, 0, 0, 0, 0 };
+    //  Vrai si mur en cours de construction
     bool inWall = false;
 
-    int wallcnt = 0;
-
-    //  On definit l'action effectuee a la rencontre d'un
-    //  coin ici pour alleger les boucles par la suite.
-    const auto visitCorner = [&](int j, int i)
+    //  Amorce/termine la construction d'un mur
+    const auto visitCorner = [&](int i, int j)
     {
       //  Mise a l'echelle (voir declaration de s)
       if(!inWall) //  Ouverture du mur
       {
-        wallval._x1 = i;
-        wallval._y1 = j;
+        wallval._x1 = j;
+        wallval._y1 = i;
         inWall = true;
       }
       else        //  Fermeture du mur
       {
-        wallcnt++;
         //  On definit la fin
-        wallval._x2 = i;
-        wallval._y2 = j;
+        wallval._x2 = j;
+        wallval._y2 = i;
         //  On l'ajoute au vecteur
         walls.push_back(wallval);
 
@@ -67,14 +65,18 @@ namespace labyrinth::mapgen
       }
     };
 
+    //  Arrête la construction d'un mur
     const auto abortWall = [&]() { inWall = false; };
 
-    const auto addVertTex = [&](int j, int i, int id)
-      { sprites.push_back({ i , j , i , j + 1 , id }); };
+    //  Ajout d'une texture verticale
+    const auto addVertTex = [&](int i, int j, int id)
+      { sprites.push_back({ j , i , j + 1 , i , id }); };
     
-    const auto addHoriTex = [&](int j, int i, int id)
-      { sprites.push_back({ i , j , i + 1 , j , id }); };
+    //  Ajout d'une texture horizontale
+    const auto addHoriTex = [&](int i, int j, int id)
+      { sprites.push_back({ j , i , j , i + 1 , id }); };
 
+    //  Vérifie si un caractère est un sprite
     const auto isSprite = [&](char c)
       { return charSet.find(c) != charSet.end(); };
 
@@ -119,8 +121,8 @@ namespace labyrinth::mapgen
             case Element::hunter: {
               cout << "Ajout des chasseurs indisponible." << '\n';   //  TODO
             } break;
-            case Element::guardian: {;
-              //movers.push_back(new Gardien(x, y, &lab));
+            case Element::guardian: {
+              //movers.push_back(new Gardien(j, i, &lab));
             } break;
             case Element::treasure: {
               treasure = { (int)j, (int)i, 0 };
