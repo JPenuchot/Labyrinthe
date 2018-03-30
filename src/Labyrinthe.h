@@ -21,7 +21,7 @@ enum Element {
   treasure        = 'T',
 
   //  Emptiness...
-  empty           = ' '
+  empty           = EMPTY
 };
 
 class Labyrinthe : public Environnement {

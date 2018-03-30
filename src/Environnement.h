@@ -1,5 +1,7 @@
 #pragma once
 
+#include <ostream>
+
 /*
  *	Traduit un fichier de type definition de labyrinthe au format interne.
  */
@@ -13,11 +15,27 @@ struct Wall {
 	int	_x1, _y1;	// point de depart.
 	int	_x2, _y2;	// point d'arrivee.
 	int	_ntex;		// numero de texture.
+
+	friend std::ostream& operator<< (std::ostream& os, Wall& wall)
+	{
+		os
+			<< "Wall[ ( " << wall._x1 
+			<< " , " << wall._y1
+			<< " ) => ( " << wall._x2
+			<< " , " << wall._y2 << " ) ]";
+		return os;
+	}
 };
 
 struct Box {
 	int	_x, _y;		// emplacement.
 	int	_ntex;		// numero de texture.
+
+	friend std::ostream& operator<< (std::ostream& os, Box& b)
+	{
+		os << "Box( " << b._x << " , " << b._y << " ; ntex : " << b._ntex << " )";
+		return os;
+	}
 };
 
 class Environnement {

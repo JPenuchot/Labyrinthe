@@ -95,7 +95,7 @@ Labyrinthe::Labyrinthe (char* filename)
     }
   }
 
-  this->table.resize(labwidth * labheight, ' ');
+  this->table.resize(labwidth * labheight, Element::empty);
   this->w = labwidth;
   this->h = labheight;
 
@@ -105,7 +105,7 @@ Labyrinthe::Labyrinthe (char* filename)
   vector<Mover*>  guardians_vec;
 
   //  On lance le parsing sur tout le niveau (yay)
-  labyrinth::utils::parse_level
+  labyrinth::mapgen::parse_level
     ( mapvec , spray_info
     , *this
     , wall_vec , picts_vec
@@ -122,7 +122,7 @@ Labyrinthe::Labyrinthe (char* filename)
   this->_picts    = (Wall*)malloc(sizeof(Wall) * picts_vec.size());
   copy(picts_vec.begin(), picts_vec.end(), this->_picts);
 
-  this->_nboxes   = picts_vec.size();
+  this->_nboxes   = boxes_vec.size();
   this->_boxes    = (Box*)malloc(sizeof(Box) * boxes_vec.size());
   copy(boxes_vec.begin(), boxes_vec.end(), this->_boxes);
 
@@ -130,4 +130,10 @@ Labyrinthe::Labyrinthe (char* filename)
   this->_nguards  = guardians_vec.size();
   this->_guards   = (Mover**)malloc(sizeof(Mover*) * guardians_vec.size());
   copy(guardians_vec.begin(), guardians_vec.end(), this->_guards);
+
+  cout
+    << _nwall << " walls\n"
+    << _npicts << " picts\n"
+    << _nboxes << " boxes\n"
+    << _nguards << " movers\n";
 }
