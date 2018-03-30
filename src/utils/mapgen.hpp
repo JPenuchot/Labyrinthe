@@ -36,9 +36,6 @@ namespace labyrinth::mapgen
      *    1/ PRE-DEFINITION DES ACTIONS
      */
 
-    auto i_to_x = [&](auto i) { return i; };
-    auto j_to_y = [&](auto j) { return j; };
-
     Wall wallval = { 0, 0, 0, 0, 0 };
     bool inWall = false;
 
@@ -46,21 +43,21 @@ namespace labyrinth::mapgen
 
     //  On definit l'action effectuee a la rencontre d'un
     //  coin ici pour alleger les boucles par la suite.
-    const auto visitCorner = [&](int x, int y)
+    const auto visitCorner = [&](int j, int i)
     {
       //  Mise a l'echelle (voir declaration de s)
       if(!inWall) //  Ouverture du mur
       {
-        wallval._x1 = x;
-        wallval._y1 = y;
+        wallval._x1 = i;
+        wallval._y1 = j;
         inWall = true;
       }
       else        //  Fermeture du mur
       {
         wallcnt++;
         //  On definit la fin
-        wallval._x2 = x;
-        wallval._y2 = y;
+        wallval._x2 = i;
+        wallval._y2 = j;
         //  On l'ajoute au vecteur
         walls.push_back(wallval);
 
@@ -72,11 +69,11 @@ namespace labyrinth::mapgen
 
     const auto abortWall = [&]() { inWall = false; };
 
-    const auto addVertTex = [&](int x, int y, int id)
-      { sprites.push_back({ x , y , x , y + 1 , id }); };
+    const auto addVertTex = [&](int j, int i, int id)
+      { sprites.push_back({ i , j , i , j + 1 , id }); };
     
-    const auto addHoriTex = [&](int x, int y, int id)
-      { sprites.push_back({ x , y , x + 1 , y , id }); };
+    const auto addHoriTex = [&](int j, int i, int id)
+      { sprites.push_back({ i , j , i + 1 , j , id }); };
 
     const auto isSprite = [&](char c)
       { return charSet.find(c) != charSet.end(); };
@@ -92,9 +89,6 @@ namespace labyrinth::mapgen
     {
       for(size_t j = 0; j < mapvec[i].size(); j++)
       {
-        const auto x = i_to_x(i);
-        const auto y = j_to_y(j);
-
         const char curr_char = mapvec[i][j];
         
         lab(i, j) = curr_char == ' ' ? Element::empty : curr_char;
@@ -114,7 +108,7 @@ namespace labyrinth::mapgen
 
         //  Ajout d'une affiche
         else if(inWall && isSprite(curr_char))
-          addHoriTex(x, y, idMap[curr_char]);
+          addHoriTex(i, j, idMap[curr_char]);
 
         //    2.2/ GESTION DE L'AJOUT D'ENTITES
 
@@ -129,11 +123,11 @@ namespace labyrinth::mapgen
               //movers.push_back(new Gardien(x, y, &lab));
             } break;
             case Element::treasure: {
-              treasure = { (int)x, (int)y, 0 };
+              treasure = { (int)j, (int)i, 0 };
             } break;
 
             case Element::box: {
-              boxes.push_back({(int)x, (int)y, 0 });
+              boxes.push_back({ (int)j, (int)i, 0 });
             } break;
             
             case Element::empty: break;
@@ -153,9 +147,6 @@ namespace labyrinth::mapgen
     {
       for(size_t i = 0; i < lab.height(); i++)
       {
-        const auto x = i_to_x(i);
-        const auto y = j_to_y(j);
-
         const char curr_char = lab(i, j);
 
         //  A la rencontre d'un coin de mur...

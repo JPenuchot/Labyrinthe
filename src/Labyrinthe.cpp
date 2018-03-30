@@ -86,7 +86,7 @@ Labyrinthe::Labyrinthe (char* filename)
     else if(regex_match(line_clean, match, spaces));
 
     else
-    { //  Si on ne matche pas, on rajoute la ligne aux vecteurs.
+    { //  Si on ne matche pas, on rajoute la ligne au vecteur mapvec.
       vector<char> line_vec(line_clean.begin(), line_clean.end());
       mapvec.push_back(line_vec);
 
@@ -95,9 +95,9 @@ Labyrinthe::Labyrinthe (char* filename)
     }
   }
 
-  this->table.resize(labwidth * labheight, Element::empty);
   this->w = labwidth;
   this->h = labheight;
+  this->table.resize(labwidth * labheight, Element::empty);
 
   vector<Wall>    wall_vec;
   vector<Wall>    picts_vec;
@@ -132,8 +132,8 @@ Labyrinthe::Labyrinthe (char* filename)
   copy(guardians_vec.begin(), guardians_vec.end(), this->_guards);
 
   cout
-    << _nwall << " walls\n"
-    << _npicts << " picts\n"
-    << _nboxes << " boxes\n"
+    << _nwall   << " walls\n"
+    << _npicts  << " picts\n"
+    << _nboxes  << " boxes\n"
     << _nguards << " movers\n";
 }

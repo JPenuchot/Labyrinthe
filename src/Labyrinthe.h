@@ -33,8 +33,10 @@ private:
 
 public:
   Labyrinthe (char*);
+  
   int width  ()                   { return w; }
   int height ()                   { return h; }
+
   char data (int i, int j)        { return table[i * w + j]; }
   char& operator() (int i, int j) { return table[i * w + j]; }
 
