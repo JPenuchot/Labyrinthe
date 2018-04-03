@@ -38,7 +38,7 @@ public:
   int width  ()                     { return w; }
   int height ()                     { return h; }
 
-  char data         (int x, int y)  { return table[h * w + y]; }
+  char data         (int x, int y)  { return table[y * w + x]; }
   char& operator()  (int i, int j)  { return table[i * w + j]; }
 
   ~Labyrinthe() { }
