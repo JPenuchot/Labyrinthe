@@ -9,8 +9,6 @@ using namespace std;
  */
 bool Chasseur::move_aux (double dx, double dy)
 {
-  cout << _x + dx << ';' << _y + dy << '\n';
-
   if( EMPTY == _l -> data ( (int)((_x + dx) / Environnement::scale)
                           , (int)((_y + dy) / Environnement::scale) ) )
   {
@@ -26,8 +24,9 @@ bool Chasseur::move_aux (double dx, double dy)
  */
 
 Chasseur::Chasseur (int x, int y, Labyrinthe* l):
-Mover (x, y, l, "modele/Marvin.md2")
+Mover (x, y, l, "Marvin")
 {
+  cout << "Chasseur @ " << x << " ; " << y;
   if(!_hunter_fire) _hunter_fire  = new Sound ("sons/hunter_fire.wav");
   if(!_hunter_hit)  _hunter_hit   = new Sound ("sons/hunter_hit.wav");
   if(!_wall_hit)    _wall_hit     = new Sound ("sons/hit_wall.wav");

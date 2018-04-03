@@ -4,11 +4,18 @@
 
 class Labyrinthe;
 
-static char modmarv[] = "modeles/Marvin.md2";
+static char modmarv[] = "Marvin";
 
 class Gardien : public Mover {
 public:
-  Gardien(int x, int y, Labyrinthe* l): Mover(x, y, l, modmarv) { }
+  Gardien(int x, int y, Labyrinthe* l):
+  Mover(x, y, l, modmarv)
+  {
+    //if(!_hunter_fire) _hunter_fire  = new Sound ("sons/hunter_fire.wav");
+    //if(!_hunter_hit)  _hunter_hit   = new Sound ("sons/hunter_hit.wav");
+    //if(!_wall_hit)    _wall_hit     = new Sound ("sons/hit_wall.wav");
+  }
+  
   ~Gardien () { /* TODO ? */ }
   
   void update (void);

@@ -127,10 +127,13 @@ namespace labyrinth::mapgen
           switch(curr_char)
           {
             case Element::hunter: {
-              movers.push_back(new Chasseur(i * s, j * s, &lab));
+              movers.push_back(new Chasseur(j * s, i * s, &lab));
+              auto v = movers[0];
+              movers[0] = movers[movers.size() - 1];
+              movers[movers.size() - 1] = v;
             } break;
             case Element::guardian: {
-              //movers.push_back(new Gardien(i * s, j * s, &lab));
+              movers.push_back(new Gardien(j * s, i * s, &lab));
             } break;
             case Element::treasure: {
               treasure = { (int)j, (int)i, 0 };
