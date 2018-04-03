@@ -13,7 +13,7 @@ set( CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -mavx2 -mfma" )
 
 # Adding include directory for audio
 
-include_directories( "ext/fmod/4.3" )
+include_directories( "ext/fmod/4.3" "ext/cpp-sak/include")
 
 # Linking libraries
 

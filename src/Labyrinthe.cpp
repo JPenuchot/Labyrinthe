@@ -3,9 +3,9 @@
 #include <vector>
 #include <regex>
 
-#include "Labyrinthe.h"
 #include "entities/movers/Chasseur.h"
 #include "entities/movers/Gardien.h"
+#include "Labyrinthe.h"
 
 #include "utils/mapgen.hpp"
 
@@ -69,7 +69,7 @@ Labyrinthe::Labyrinthe (char* filename)
 
   while(getline(file, line))
   {
-    //  On retire le commentaire s'il existe
+    //  Gestion des commentaires
     auto hashpos = line.find('#');
     
     string line_clean ( line.begin()
@@ -77,6 +77,8 @@ Labyrinthe::Labyrinthe (char* filename)
         ? line.end()              //  Alors on prend tout
         : line.begin() + hashpos  //  Sinon on vire le commentaire
     );
+
+    //  Regex matching
 
     smatch match;
 
@@ -89,11 +91,13 @@ Labyrinthe::Labyrinthe (char* filename)
     //  On saute les lignes vides
     else if(regex_match(line_clean, match, spaces));
 
+    //  Si on ne matche pas, on rajoute la ligne au vecteur mapvec.
     else
-    { //  Si on ne matche pas, on rajoute la ligne au vecteur mapvec.
+    {
       vector<char> line_vec(line_clean.begin(), line_clean.end());
       mapvec.push_back(line_vec);
 
+      //  Update des dimensions du labyrinthe
       labwidth = max(labwidth, line_clean.size());
       labheight++;
     }
@@ -101,7 +105,12 @@ Labyrinthe::Labyrinthe (char* filename)
 
   this->w = labwidth;
   this->h = labheight;
+
   this->table.resize(labwidth * labheight, Element::empty);
+
+  /*
+   *    GENERATION DE LA MAP
+   */
 
   vector<Wall>    wall_vec;
   vector<Wall>    picts_vec;
@@ -109,13 +118,14 @@ Labyrinthe::Labyrinthe (char* filename)
   vector<Mover*>  guardians_vec;
 
   //  On lance le parsing sur tout le niveau (yay)
-  labyrinth::mapgen::parse_level( mapvec , spray_info
-                                , *this
-                                , wall_vec , picts_vec
-                                , boxes_vec , guardians_vec , this->_treasor
+  labyrinth::mapgen::parse_level( mapvec , spray_info , *this
+                                , wall_vec, picts_vec, boxes_vec, guardians_vec
+                                , this->_treasor
                                 );
 
-  //  On copie les resultats au format attendu pour l'interface...
+  /*
+   *    COPIE DES RESULTATS
+   */
 
   this->_nwall    = wall_vec.size();
   this->_walls    = new Wall[wall_vec.size()];
@@ -128,16 +138,8 @@ Labyrinthe::Labyrinthe (char* filename)
   this->_nboxes   = boxes_vec.size();
   this->_boxes    = new Box[boxes_vec.size()];
   copy(boxes_vec.begin(), boxes_vec.end(), this->_boxes);
-  
+
   this->_nguards  = guardians_vec.size();
   this->_guards   = new Mover*[guardians_vec.size()];
   copy(guardians_vec.begin(), guardians_vec.end(), this->_guards);
-
-  cout  << "texture_dir : " << this->texture_dir  << '\n'
-        << "modele_dir : " << this->modele_dir   << '\n';
-
-  cout  << _nwall   << " walls\n"
-        << _npicts  << " picts\n"
-        << _nboxes  << " boxes\n"
-        << _nguards << " movers\n";
 }

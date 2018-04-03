@@ -1,7 +1,5 @@
 #pragma once
 
-#include <functional>
-#include <iostream>
 #include <string>
 #include <vector>
 #include <tuple>
@@ -61,7 +59,7 @@ namespace labyrinth::mapgen
         //  On l'ajoute au vecteur
         walls.push_back(wallval);
 
-        //  La fin du mur devient le début d'un nouveau mur
+        //  La fin du mur devient le debut d'un nouveau mur
         wallval._x1 = wallval._x2;
         wallval._y1 = wallval._y2;
       }
@@ -72,19 +70,13 @@ namespace labyrinth::mapgen
 
     //  Ajout d'une texture verticale
     const auto addVertTex = [&](int i, int j, int id)
-      {
-        //  TODO
-        //sprites.push_back({ j , i , j , i + 1 , id });
-      };
+      { sprites.push_back({ j , i , j , i + 1 , id }); };
     
     //  Ajout d'une texture horizontale
     const auto addHoriTex = [&](int i, int j, int id)
-      {
-        //  TODO
-        //sprites.push_back({ j , i , j + 1 , i , id });
-      };
+      { sprites.push_back({ j , i , j + 1 , i , id }); };
 
-    //  Vérifie si un caractère est un sprite
+    //  Verifie si un caractere est un sprite
     const auto isSprite = [&](char c)
       { return charSet.find(c) != charSet.end(); };
 
@@ -127,14 +119,18 @@ namespace labyrinth::mapgen
           switch(curr_char)
           {
             case Element::hunter: {
-              movers.push_back(new Chasseur(j * s, i * s, &lab));
-              auto v = movers[0];
-              movers[0] = movers[movers.size() - 1];
-              movers[movers.size() - 1] = v;
+              //  On doit placer le chasseur au debut
+              Mover* nc = new Chasseur(j * s, i * s, &lab);
+              if(!movers.empty())
+                { movers.push_back(movers[0]); movers[0] = nc; }
+              else
+                movers.push_back(nc);
             } break;
+
             case Element::guardian: {
               movers.push_back(new Gardien(j * s, i * s, &lab));
             } break;
+            
             case Element::treasure: {
               treasure = { (int)j, (int)i, 0 };
             } break;

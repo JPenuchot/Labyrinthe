@@ -21,13 +21,13 @@ public:
     _angle(0)
   { _model = init(modele); }
   
-  virtual ~Mover () {}
+  virtual ~Mover() {}
   
   // Fait tomber un personnage (gardien) et se relever
-  void tomber ();
+  void tomber();
   
   // Fait tomber un personnage (gardien) et le laisse au sol.
-  void rester_au_sol ();
+  void rester_au_sol();
   
   // Fait 'penser' le personnage (gardien).
   virtual void update (void) {};
@@ -41,8 +41,7 @@ public:
   // Fait tirer le personnage sur un ennemi (vous pouvez ignorer l'angle vertical).
   virtual void fire (int angle_vertical) {};
 
-  // appelee pour le gardien 0 (chasseur) quand l'utilisateur fait un clic droit;
+  // appelee pour le gardien 0 (chasseur) quand l'utilisateur fait un clic droit
   // shift (control) est vrai si la touche shift (control) est appuyee.
   virtual void right_click (bool shift, bool control) {}
-  
 };

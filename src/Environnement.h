@@ -43,12 +43,15 @@ class Environnement {
 public:
   // facteur d'echelle (defini par moi, mais utilise par vous)
   static const int scale;
-
-  static const char* texture_dir; // repertoire des textures.
-  static const char* modele_dir;  // repertoire des personnages.
+  
+  // repertoire des textures.
+  static const char* texture_dir;
+  
+  // repertoire des personnages.
+  static const char* modele_dir;
 /*
  * la fonction de creation du labyrinthe a definir
- * DANS Labyrinthe.cpp de la façon suivante:
+ * DANS Labyrinthe.cpp de la facon suivante:
  * 
  * Environnement* Environnement::init (char* filename) {
  *  return new Labyrinthe (filename);
