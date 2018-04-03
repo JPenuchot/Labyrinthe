@@ -15,10 +15,11 @@ public:
   int     _angle;     // angle de deplacement/tir.
   void*   _model;     // le modele graphique.
 
-  Mover (int x, int y, Labyrinthe* l, const char* modele) :
-    _l ((Environnement*)l), _fb (0), _x ((float)x), _y ((float)y),
-    _angle (0)
-  { _model = init (modele); }
+  Mover (int x, int y, Labyrinthe* l, const char* modele):
+    _l ((Environnement*)l), _fb(0),
+    _x ((float)x), _y ((float)y),
+    _angle(0)
+  { _model = init(modele); }
   
   virtual ~Mover () {}
   

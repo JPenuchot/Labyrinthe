@@ -37,7 +37,12 @@ Labyrinthe::Labyrinthe (char* filename)
   {
     charSet.insert(id);
     pathMap[id] = path;
-    idMap[id] = curr_int_id;
+
+    char* str = new char[path.size()];
+    copy(path.begin(), path.end(), str);
+
+    idMap[id] = this->wall_texture(str);
+
     curr_int_id++;
   };
 
@@ -77,10 +82,9 @@ Labyrinthe::Labyrinthe (char* filename)
 
     //  On ajoute les couples (lettre * path) a spray_info
     if(regex_match(line_clean, match, descriptor))
-      add_spray
-        ( match[1].str()[0] //  1er caractere du 1er groupe
-        , match[2]          //  2eme groupe entier
-        );
+      add_spray ( match[1].str()[0] //  1er caractere du 1er groupe
+                , match[2]          //  2eme groupe entier
+                );
     
     //  On saute les lignes vides
     else if(regex_match(line_clean, match, spaces));
@@ -105,35 +109,35 @@ Labyrinthe::Labyrinthe (char* filename)
   vector<Mover*>  guardians_vec;
 
   //  On lance le parsing sur tout le niveau (yay)
-  labyrinth::mapgen::parse_level
-    ( mapvec , spray_info
-    , *this
-    , wall_vec , picts_vec
-    , boxes_vec , guardians_vec , this->_treasor
-    );
+  labyrinth::mapgen::parse_level( mapvec , spray_info
+                                , *this
+                                , wall_vec , picts_vec
+                                , boxes_vec , guardians_vec , this->_treasor
+                                );
 
-  //  On copie les resultats sous le format de l'objet
+  //  On copie les resultats au format attendu pour l'interface...
 
   this->_nwall    = wall_vec.size();
-  this->_walls = (Wall*)malloc(sizeof(Wall) * wall_vec.size());
+  this->_walls    = new Wall[wall_vec.size()];
   copy(wall_vec.begin(), wall_vec.end(), this->_walls);
 
   this->_npicts   = picts_vec.size();
-  this->_picts    = (Wall*)malloc(sizeof(Wall) * picts_vec.size());
+  this->_picts    = new Wall[picts_vec.size()];
   copy(picts_vec.begin(), picts_vec.end(), this->_picts);
 
   this->_nboxes   = boxes_vec.size();
-  this->_boxes    = (Box*)malloc(sizeof(Box) * boxes_vec.size());
+  this->_boxes    = new Box[boxes_vec.size()];
   copy(boxes_vec.begin(), boxes_vec.end(), this->_boxes);
-
-  //  Cas special des gardiens
+  
   this->_nguards  = guardians_vec.size();
-  this->_guards   = (Mover**)malloc(sizeof(Mover*) * guardians_vec.size());
+  this->_guards   = new Mover*[guardians_vec.size()];
   copy(guardians_vec.begin(), guardians_vec.end(), this->_guards);
 
-  cout
-    << _nwall   << " walls\n"
-    << _npicts  << " picts\n"
-    << _nboxes  << " boxes\n"
-    << _nguards << " movers\n";
+  cout  << "texture_dir : " << this->texture_dir  << '\n'
+        << "modele_dir : " << this->modele_dir   << '\n';
+
+  cout  << _nwall   << " walls\n"
+        << _npicts  << " picts\n"
+        << _nboxes  << " boxes\n"
+        << _nguards << " movers\n";
 }

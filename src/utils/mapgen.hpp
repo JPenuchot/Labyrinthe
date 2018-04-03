@@ -32,6 +32,8 @@ namespace labyrinth::mapgen
     auto& charSet = get<0>(spray_info);
     auto& idMap   = get<2>(spray_info);
 
+    const auto& s = Environnement::scale;
+
     /*
      *    1/ PRE-DEFINITION DES ACTIONS
      */
@@ -70,11 +72,17 @@ namespace labyrinth::mapgen
 
     //  Ajout d'une texture verticale
     const auto addVertTex = [&](int i, int j, int id)
-      { sprites.push_back({ j , i , j + 1 , i , id }); };
+      {
+        //  TODO
+        //sprites.push_back({ j , i , j , i + 1 , id });
+      };
     
     //  Ajout d'une texture horizontale
     const auto addHoriTex = [&](int i, int j, int id)
-      { sprites.push_back({ j , i , j , i + 1 , id }); };
+      {
+        //  TODO
+        //sprites.push_back({ j , i , j + 1 , i , id });
+      };
 
     //  Vérifie si un caractère est un sprite
     const auto isSprite = [&](char c)
@@ -119,10 +127,10 @@ namespace labyrinth::mapgen
           switch(curr_char)
           {
             case Element::hunter: {
-              cout << "Ajout des chasseurs indisponible." << '\n';   //  TODO
+              movers.push_back(new Chasseur(i * s, j * s, &lab));
             } break;
             case Element::guardian: {
-              //movers.push_back(new Gardien(j, i, &lab));
+              //movers.push_back(new Gardien(i * s, j * s, &lab));
             } break;
             case Element::treasure: {
               treasure = { (int)j, (int)i, 0 };

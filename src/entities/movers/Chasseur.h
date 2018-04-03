@@ -4,6 +4,8 @@
 #include "Mover.h"
 #include "../../Sound.h"
 
+#include <iostream>
+
 class Labyrinthe;
 
 class Chasseur : public Mover {
@@ -18,10 +20,10 @@ public:
   static Sound* _hunter_hit;  // cri du chasseur touche.
   static Sound* _wall_hit;    // on a tape un mur.
 
-  Chasseur (Labyrinthe* l);
+  Chasseur (int x, int y, Labyrinthe* l);
 
   // ne bouger que dans une case vide (on 'glisse' le long des obstacles)
-  inline bool move (double dx, double dy)
+  bool move (double dx, double dy)
     { return move_aux (dx, dy) || move_aux (dx, 0.0) || move_aux (0.0, dy); }
 
   //  Le chasseur ne pense pas!

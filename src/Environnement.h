@@ -67,13 +67,13 @@ public:
   int     _nguards; // leur nombre.
 
   // retourne la largeur du labyrinthe.
-  virtual int width () {};
+  virtual int width () { return 0; };
 
   // retourne la longueur du labyrinthe.
-  virtual int height () {};
+  virtual int height () { return 0; };
 
   // retourne la case (i, j).
-  virtual char data (int i, int j) {};
+  virtual char data (int i, int j) { return 0; };
 
   virtual ~Environnement () {}
 

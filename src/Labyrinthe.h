@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <iostream>
 
 #include "Environnement.h"
 
@@ -34,11 +35,11 @@ private:
 public:
   Labyrinthe (char*);
   
-  int width  ()                   { return w; }
-  int height ()                   { return h; }
+  int width  ()                     { return w; }
+  int height ()                     { return h; }
 
-  char data (int i, int j)        { return table[i * w + j]; }
-  char& operator() (int i, int j) { return table[i * w + j]; }
+  char data         (int x, int y)  { return table[h * w + y]; }
+  char& operator()  (int i, int j)  { return table[i * w + j]; }
 
   ~Labyrinthe() { }
 };

@@ -11,3 +11,5 @@ b affiche2.jpg  # texture de l'affiche 2
 +-+-+-+
 |T|x| |
 +-+-+-+
+
+

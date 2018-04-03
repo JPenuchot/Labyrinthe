@@ -1,11 +1,16 @@
+#include <iostream>
+
 #include "Chasseur.h"
+
+using namespace std;
 
 /*
  *  Tente un deplacement.
  */
-
 bool Chasseur::move_aux (double dx, double dy)
 {
+  cout << _x + dx << ';' << _y + dy << '\n';
+
   if( EMPTY == _l -> data ( (int)((_x + dx) / Environnement::scale)
                           , (int)((_y + dy) / Environnement::scale) ) )
   {
@@ -20,7 +25,8 @@ bool Chasseur::move_aux (double dx, double dy)
  *  Constructeur.
  */
 
-Chasseur::Chasseur (Labyrinthe* l) : Mover (100, 80, l, "modele/Marvin.md2")
+Chasseur::Chasseur (int x, int y, Labyrinthe* l):
+Mover (x, y, l, "modele/Marvin.md2")
 {
   if(!_hunter_fire) _hunter_fire  = new Sound ("sons/hunter_fire.wav");
   if(!_hunter_hit)  _hunter_hit   = new Sound ("sons/hunter_hit.wav");
@@ -42,7 +48,7 @@ bool Chasseur::process_fireball (float dx, float dy)
   if (EMPTY == _l -> data ((int)((_fb -> get_x () + dx) / Environnement::scale),
                (int)((_fb -> get_y () + dy) / Environnement::scale)))
   {
-    message ("Woooshh ..... %d", (int) dist2);
+    message ("Woooshh..... %d", (int) dist2);
     // il y a la place.
     return true;
   }
