@@ -54,7 +54,7 @@ Labyrinthe::Labyrinthe (char* filename)
   //    1er  matching group : caractere de la texture
   //    2eme matching group : path de la texture
   //  Plus d'infos : https://regex101.com/r/JJzOXk/3
-  regex descriptor("^\\s*([a-b])\\s*([^\\s]+)\\s*$");
+  regex descriptor("^\\s*([a-z])\\s*([^\\s]+)\\s*$");
   
   //  Celle-ci permet de matcher les lignes remplies d'espaces.
   regex spaces("^\\s*$");
