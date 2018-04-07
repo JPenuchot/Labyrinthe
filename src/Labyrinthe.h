@@ -42,4 +42,12 @@ public:
   char& operator()  (int i, int j)  { return table[i * w + j]; }
 
   ~Labyrinthe() { }
+
+  static bool isWall(char e)
+  {
+    return e == Element::wall_corner
+        || e == Element::wall_horizontal
+        || e == Element::wall_vertical
+      ;
+  }
 };
