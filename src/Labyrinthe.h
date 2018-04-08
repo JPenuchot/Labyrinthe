@@ -27,7 +27,8 @@ enum Element {
 
 class Labyrinthe : public Environnement {
 private:
-  vector<char> table;
+  vector<char>  table;
+  vector<int>   distmap;
 
   size_t w;
   size_t h;
@@ -48,6 +49,8 @@ public:
     return e == Element::wall_corner
         || e == Element::wall_horizontal
         || e == Element::wall_vertical
+        || e == Element::box
+        || e == Element::treasure
       ;
   }
 };

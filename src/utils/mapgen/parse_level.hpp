@@ -18,7 +18,7 @@ namespace labyrinth::mapgen
 
   void parse_level
     ( vector<vector<char>>& mapvec
-    , tuple<set<char>, map<char, string>, map<char, int>>& spray_info
+    , pair<set<char>, map<char, int>>& spray_info
     , Labyrinthe&     lab
     , vector<Wall>&   walls
     , vector<Wall>&   sprites
@@ -27,8 +27,8 @@ namespace labyrinth::mapgen
     , Box&            treasure
     )
   {
-    auto& charSet = get<0>(spray_info);
-    auto& idMap   = get<2>(spray_info);
+    auto& charSet = spray_info.first;
+    auto& idMap   = spray_info.second;
 
     const auto& s = Environnement::scale;
 
@@ -127,17 +127,14 @@ namespace labyrinth::mapgen
                 movers.push_back(nc);
             } break;
 
-            case Element::guardian: {
-              movers.push_back(new Gardien(j * s, i * s, &lab));
-            } break;
+            case Element::guardian:
+              movers.push_back(new Gardien(j * s, i * s, &lab)); break;
             
-            case Element::treasure: {
-              treasure = { (int)j, (int)i, 0 };
-            } break;
+            case Element::treasure:
+              treasure = { (int)j, (int)i, 0 }; break;
 
-            case Element::box: {
-              boxes.push_back({ (int)j, (int)i, 0 });
-            } break;
+            case Element::box:
+              boxes.push_back({ (int)j, (int)i, 0 }); break;
             
             case Element::empty: break;
             default: break;

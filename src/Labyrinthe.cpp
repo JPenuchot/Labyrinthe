@@ -6,6 +6,7 @@
 #include "entities/movers/Chasseur.h"
 #include "entities/movers/Gardien.h"
 #include "Labyrinthe.h"
+#include "utils/mapgen/distmap.hpp"
 
 #include "utils/mapgen.hpp"
 
@@ -20,13 +21,12 @@ Labyrinthe::Labyrinthe (char* filename)
 {
   ifstream file(filename);
   vector<vector<char>> mapvec;
-  tuple<set<char>, map<char, string>, map<char, int>> spray_info;
+  pair<set<char>, map<char, int>> spray_info;
   
   //  On definit des references sur les membres
   //  de spray_info pour la lisibilite du code
-  auto& charSet = get<0>(spray_info);
-  auto& pathMap = get<1>(spray_info);
-  auto& idMap   = get<2>(spray_info);
+  auto& charSet = spray_info.first;
+  auto& idMap   = spray_info.second;
 
   /*
    *    PRE-DEFINITION DES ACTIONS
@@ -36,7 +36,6 @@ Labyrinthe::Labyrinthe (char* filename)
   auto add_spray = [&](char id, string path)
   {
     charSet.insert(id);
-    pathMap[id] = path;
 
     char* str = new char[path.size()];
     copy(path.begin(), path.end(), str);
@@ -142,4 +141,12 @@ Labyrinthe::Labyrinthe (char* filename)
   this->_nguards  = guardians_vec.size();
   this->_guards   = new Mover*[guardians_vec.size()];
   copy(guardians_vec.begin(), guardians_vec.end(), this->_guards);
+
+  /*
+   *    EXTRAS
+   */
+
+  //  Generation de la map de distance
+
+  labyrinth::mapgen::distmap(*this, this->distmap);
 }
