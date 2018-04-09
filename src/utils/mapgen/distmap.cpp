@@ -1,5 +1,3 @@
-#pragma once
-
 #include <tuple>
 #include <queue>
 

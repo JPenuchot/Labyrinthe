@@ -28,4 +28,8 @@ public:
   void right_click (bool shift, bool control);
 
   bool move_aux (double dx, double dy);
+
+  //  CUSTOM
+
+  void hit();
 };

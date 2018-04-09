@@ -30,14 +30,17 @@ set_source_files_properties( ${OBJS} PROPERTIES
 )
 
 # Building object files
-add_library( Labyrinthe OBJECT "src/Labyrinthe.cpp" )
-add_library( Chasseur   OBJECT "src/entities/movers/Chasseur.cpp" )
-add_library( Gardien    OBJECT "src/entities/movers/Gardien.cpp" )
+file(GLOB_RECURSE SOURCES "src/*.cpp")
+
+#add_library( Labyrinthe OBJECT "src/Labyrinthe.cpp" )
+#add_library( Chasseur   OBJECT "src/entities/movers/Chasseur.cpp" )
+#add_library( Gardien    OBJECT "src/entities/movers/Gardien.cpp" )
 
 # Final executable
 add_executable( cstrike64
   ${OBJS}
-  $<TARGET_OBJECTS:Labyrinthe>
-  $<TARGET_OBJECTS:Chasseur>
-  $<TARGET_OBJECTS:Gardien>
+  ${SOURCES}
+  #$<TARGET_OBJECTS:Labyrinthe>
+  #$<TARGET_OBJECTS:Chasseur>
+  #$<TARGET_OBJECTS:Gardien>
 )

@@ -27,6 +27,8 @@ enum Element {
   empty           = EMPTY
 };
 
+using hit_info_t = Element;
+
 class Labyrinthe : public Environnement {
 private:
   vector<char>  table;
@@ -46,6 +48,23 @@ public:
 
   char& operator()      (int i, int j)  { return table[i * w + j]; }
   int dist_to_treasure  (int i, int j)  { return distmap[i * w + j]; }
+
+  /**
+   * @brief      Dans le cas d'une collision, permet de trouver
+   * l'objet touche à la case (i,j) (type renseigne par la map)
+   *
+   * @param[in]  i     Hauteur
+   * @param[in]  j     Largeur
+   *
+   * @tparam     T     Type de l'objet recherche
+   *
+   * @return     Pointeur vers l'objet recherche,
+   * nullptr si rien trouve.
+   */
+  template<typename T>
+  T* find(int i, int j) { return nullptr; }
+
+  void hit(int x, int y, Mover& shooter);
 
   ~Labyrinthe() { }
 

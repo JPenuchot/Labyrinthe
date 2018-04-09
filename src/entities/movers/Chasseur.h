@@ -41,4 +41,8 @@ public:
 
   // Tire sur un ennemi.
   void fire (int angle_vertical);
+
+  //  CUSTOM
+
+  void hit();
 };

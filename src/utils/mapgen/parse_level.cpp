@@ -1,5 +1,3 @@
-#pragma once
-
 #include <string>
 #include <vector>
 #include <tuple>
@@ -87,13 +85,8 @@ namespace labyrinth::mapgen
     //  Ajout d'un gardien
     const auto addGuardian = [&](int i, int j)
     {
-      //  On cree un gardien
       auto ng = new Gardien(j * s, i * s, &lab);
-
-      //  On l'ajoute au vecteur guardians avec la semantique move
       guardians.push_back(ng);
-
-      //  On ajoute le pointeur a movers (pour l'interface)
       movers.push_back(guardians.back());
     };
 
@@ -102,7 +95,6 @@ namespace labyrinth::mapgen
     {
       auto nc = new Chasseur(j * s, i * s, &lab);
 
-      //  On ajoute le chasseur au vecteur hunters
       hunters.push_back(nc);
 
       //  On ajoute le pointeur vers le chasseur en tete de movers
