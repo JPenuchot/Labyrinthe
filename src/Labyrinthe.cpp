@@ -22,7 +22,7 @@ Labyrinthe::Labyrinthe (char* filename)
   ifstream file(filename);
   vector<vector<char>> mapvec;
   pair<set<char>, map<char, int>> spray_info;
-  
+
   //  On definit des references sur les membres
   //  de spray_info pour la lisibilite du code
   auto& charSet = spray_info.first;
@@ -54,7 +54,7 @@ Labyrinthe::Labyrinthe (char* filename)
   //    2eme matching group : path de la texture
   //  Plus d'infos : https://regex101.com/r/JJzOXk/3
   regex descriptor("^\\s*([a-z])\\s*([^\\s]+)\\s*$");
-  
+
   //  Celle-ci permet de matcher les lignes remplies d'espaces.
   regex spaces("^\\s*$");
 
@@ -70,7 +70,7 @@ Labyrinthe::Labyrinthe (char* filename)
   {
     //  Gestion des commentaires
     auto hashpos = line.find('#');
-    
+
     string line_clean ( line.begin()
       , hashpos == string::npos //  Si '#' non trouve
         ? line.end()              //  Alors on prend tout
@@ -86,7 +86,7 @@ Labyrinthe::Labyrinthe (char* filename)
       add_spray ( match[1].str()[0] //  1er caractere du 1er groupe
                 , match[2]          //  2eme groupe entier
                 );
-    
+
     //  On saute les lignes vides
     else if(regex_match(line_clean, match, spaces));
 
@@ -114,12 +114,15 @@ Labyrinthe::Labyrinthe (char* filename)
   vector<Wall>    wall_vec;
   vector<Wall>    picts_vec;
   vector<Box>     boxes_vec;
-  vector<Mover*>  guardians_vec;
+  vector<Mover*>  movers_vec;
 
   //  On lance le parsing sur tout le niveau (yay)
   labyrinth::mapgen::parse_level( mapvec , spray_info , *this
-                                , wall_vec, picts_vec, boxes_vec, guardians_vec
+                                , wall_vec, picts_vec, boxes_vec, movers_vec
                                 , this->_treasor
+
+                                , this->guardians
+                                , this->hunters
                                 );
 
   /*
@@ -138,9 +141,9 @@ Labyrinthe::Labyrinthe (char* filename)
   this->_boxes    = new Box[boxes_vec.size()];
   copy(boxes_vec.begin(), boxes_vec.end(), this->_boxes);
 
-  this->_nguards  = guardians_vec.size();
-  this->_guards   = new Mover*[guardians_vec.size()];
-  copy(guardians_vec.begin(), guardians_vec.end(), this->_guards);
+  this->_nguards  = movers_vec.size();
+  this->_guards   = new Mover*[movers_vec.size()];
+  copy(movers_vec.begin(), movers_vec.end(), this->_guards);
 
   /*
    *    EXTRAS

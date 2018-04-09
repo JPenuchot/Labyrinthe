@@ -12,11 +12,17 @@ const auto is = 1. / (double)Environnement::scale;
  */
 bool Chasseur::move_aux (double dx, double dy)
 {
-  if(Element::empty == _l -> data ( (int)((_x + dx)  * is)
-                                  , (int)((_y + dy)  * is) ) )
+  if(Element::empty == (*lab) ( (int)((_x + dx)  * is)
+                              , (int)((_y + dy)  * is) ) )
   {
+    auto self = (*lab)(_y, _x);
+    (*lab)(_y, _x) = Element::empty;
+
     _x += dx;
     _y += dy;
+
+    (*lab)(_y, _x) = self;
+
     return true;
   }
   return false;
@@ -26,7 +32,9 @@ bool Chasseur::move_aux (double dx, double dy)
  *  Constructeur.
  */
 
-Chasseur::Chasseur (int x, int y, Labyrinthe* l): Mover (x, y, l, "Marvin")
+Chasseur::Chasseur (int x, int y, Labyrinthe* l):
+Mover (x, y, l, "Marvin"),
+lab(l)
 {
   if(!_hunter_fire) _hunter_fire  = new Sound ("sons/hunter_fire.wav");
   if(!_hunter_hit)  _hunter_hit   = new Sound ("sons/hunter_hit.wav");
@@ -40,29 +48,25 @@ Chasseur::Chasseur (int x, int y, Labyrinthe* l): Mover (x, y, l, "Marvin")
 
 bool Chasseur::process_fireball (float dx, float dy)
 {
-  // calculer la distance entre le chasseur et le lieu de l'explosion.
+  //  Calculer la distance entre le chasseur et le lieu de l'explosion.
   float x = (_x - _fb->get_x()) * is;
   float y = (_y - _fb->get_y()) * is;
   
   float dist2 = x*x + y*y;
   
-  // on bouge que dans le vide!
-  if (Element::empty == _l -> data( (int)( (_fb->get_x() + dx) * is )
-                                  , (int)( (_fb->get_y() + dy) * is ) ) )
+  //  On bouge que dans le vide!
+  if (Element::empty == (*lab)  ( (int)( (_fb->get_x() + dx) * is )
+                                , (int)( (_fb->get_y() + dy) * is ) ) )
   {
-    message ("Woooshh..... %d", (int) dist2);
-    // il y a la place.
     return true;
   }
   
-  // collision...
-  // calculer la distance maximum en ligne droite.
+  // Collision...
+  // Calculer la distance maximum en ligne droite.
   float dmax2 = ( _l->width() * _l->width() ) + ( _l->height() * _l->height() );
   
-  // faire exploser la boule de feu avec un bruit en fonction de la distance.
+  // Faire exploser la boule de feu avec un bruit en fonction de la distance.
   _wall_hit->play(1. - dist2 / dmax2);
-  
-  message("Booom...");
   return false;
 }
 

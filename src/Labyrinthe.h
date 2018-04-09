@@ -5,6 +5,8 @@
 
 #include "Environnement.h"
 
+#include "entities/movers.hpp"
+
 using namespace std;
 
 enum Element {
@@ -12,11 +14,11 @@ enum Element {
   wall_corner     = '+',
   wall_vertical   = '|',
   wall_horizontal = '-',
-  
+
   //  NPCs
   hunter          = 'C',
   guardian        = 'G',
-  
+
   //  Map elements
   box             = 'x',
   treasure        = 'T',
@@ -30,17 +32,20 @@ private:
   vector<char>  table;
   vector<int>   distmap;
 
+  vector<Gardien*>   guardians;
+  vector<Chasseur*>  hunters;
+
   size_t w;
   size_t h;
 
 public:
   Labyrinthe (char*);
-  
-  int width  ()                     { return w; }
-  int height ()                     { return h; }
 
-  char data         (int x, int y)  { return table[y * w + x]; }
-  char& operator()  (int i, int j)  { return table[i * w + j]; }
+  int width  ()                         { return w; }
+  int height ()                         { return h; }
+
+  char& operator()      (int i, int j)  { return table[i * w + j]; }
+  int dist_to_treasure  (int i, int j)  { return distmap[i * w + j]; }
 
   ~Labyrinthe() { }
 

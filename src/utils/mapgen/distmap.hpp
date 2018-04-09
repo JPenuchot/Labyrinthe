@@ -30,10 +30,10 @@ namespace labyrinth::mapgen
 
     auto access_res     = [&](pos_t p) -> vector<int>::reference
       { return res[pos_to_id(p)]; };
-    
+
     auto access_visited = [&](pos_t p) -> vector<bool>::reference
       { return visited[pos_to_id(p)]; };
-    
+
     auto access_lab     = [&](pos_t p) -> vector<char>::reference
       { return lab(p.first, p.second); };
 
@@ -47,7 +47,7 @@ namespace labyrinth::mapgen
 
     queue<pos_t> pos_queue;
     pos_queue.push(init_pos);
-    
+
     access_res(init_pos) = 0;
     access_visited(init_pos) = true;
 
@@ -82,7 +82,7 @@ namespace labyrinth::mapgen
         //  On met a jour la distance au tresor de la case
         access_res(n) = curr_dist + 1;
         access_visited(n) = true;
-        
+
         //  On enfile la position
         pos_queue.push(n);
       }

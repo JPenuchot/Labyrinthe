@@ -1,25 +1,25 @@
 #pragma once
 
-class Labyrinthe; // la (future) votre
+class Labyrinthe; // La (future) votre
 
 #include "../FireBall.h"
 #include "../../Environnement.h"
 
 class Mover {
 private:
-  static void*  init (const char*); // initialise le modele md2.
+  static void*  init (const char*); // Initialise le modele md2.
 public:
-  Environnement*  _l; // le labyrinthe dans lequel il evolue.
-  FireBall* _fb;      // sa boule de feu.
-  float   _x, _y;     // position.
-  int     _angle;     // angle de deplacement/tir.
-  void*   _model;     // le modele graphique.
+  Labyrinthe*  _l; // Le labyrinthe dans lequel il evolue.
+  FireBall* _fb;      // Sa boule de feu.
+  float   _x, _y;     // Position.
+  int     _angle;     // Angle de deplacement/tir.
+  void*   _model;     // Le modele graphique.
 
-  Mover (int x, int y, Labyrinthe* l, const char* modele):
-    _l ((Environnement*)l), _fb(0),
-    _x ((float)x), _y ((float)y),
-    _angle(0)
-  { _model = init(modele); }
+  Mover (int x, int y, Labyrinthe* l, const char* modele)
+  : _l (l), _fb(0)
+  , _x ((float)x), _y ((float)y)
+  , _angle(0)
+    { _model = init(modele); }
   
   virtual ~Mover() {}
   
@@ -35,13 +35,13 @@ public:
   // Fait bouger la boule de feu du personnage.
   virtual bool process_fireball (float dx, float dy) { return false; }
   
-  // tente de deplacer le personnage de <dx,dy>.
+  // Tente de deplacer le personnage de <dx,dy>.
   virtual bool move (double dx, double dy) { return false; }
   
   // Fait tirer le personnage sur un ennemi (vous pouvez ignorer l'angle vertical).
   virtual void fire (int angle_vertical) {};
 
-  // appelee pour le gardien 0 (chasseur) quand l'utilisateur fait un clic droit
-  // shift (control) est vrai si la touche shift (control) est appuyee.
+  // Appelee pour le gardien 0 (chasseur) quand l'utilisateur fait un clic droit
+  // Shift (control) est vrai si la touche shift (control) est appuyee.
   virtual void right_click (bool shift, bool control) {}
 };
