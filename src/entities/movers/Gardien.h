@@ -15,7 +15,7 @@ public:
   lab(l)
   {}
 
-  ~Gardien () { /* TODO ? */ }
+  ~Gardien () {}
 
   void update (void);
 
@@ -29,7 +29,12 @@ public:
 
   bool move_aux (double dx, double dy);
 
-  //  CUSTOM
+  /*
+   *    GAMEPLAY
+   */
 
+  /**
+   * @brief      Le gardien se fait tirer dessus
+   */
   void hit();
 };

@@ -10,21 +10,26 @@ using namespace std;
 void Labyrinthe::hit(int x, int y, Mover& shooter)
 {
   //  Lorsqu'on touche un gardien...  
-  auto hitGuardian = [&](int i, int j)
+  auto hitGuardian = [&](int x, int y)
   {
-    Gardien* gdn = find<Gardien>(i, j);
+    message("Gardien");
+    Gardien* gdn = find<Gardien>(x, y);
+    gdn->hit();
   };
 
   //  Lorsqu'on touche un chasseur...
-  auto hitHunter = [&](int i, int j)
+  auto hitHunter = [&](int x, int y)
   {
-    Chasseur* hun = find<Chasseur>(i, j);
+    message("Chasseur");
+    Chasseur* hun = find<Chasseur>(x, y);
+    hun->hit();
   };
 
   //  Lorsqu'on touche un mur...
-  auto hitWall = [&](int i, int j)
+  auto hitWall = [&](int x, int y)
   { 
-    Wall* wal = find<Wall>(i, j);
+    message("Mur");
+    Wall* wal = find<Wall>(x, y);
   };
 
   //  Le switch sert a brancher sur

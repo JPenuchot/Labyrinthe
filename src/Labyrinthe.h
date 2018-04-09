@@ -62,7 +62,7 @@ public:
    * nullptr si rien trouve.
    */
   template<typename T>
-  T* find(int i, int j) { return nullptr; }
+  T* find(int x, int y) { return nullptr; }
 
   void hit(int x, int y, Mover& shooter);
 

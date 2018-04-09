@@ -1,7 +1,6 @@
 #pragma once
 
 #include <iostream>
-//#include <stdio.h>
 
 #include "../../Sound.h"
 
@@ -42,7 +41,12 @@ public:
   // Tire sur un ennemi.
   void fire (int angle_vertical);
 
-  //  CUSTOM
+  /*
+   *    GAMEPLAY
+   */
 
+  /**
+   * @brief      Le chasseur se fait tirer dessus
+   */
   void hit();
 };
