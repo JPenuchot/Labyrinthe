@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "Gardien.h"
-#include "../../Labyrinthe.h"
+#include "../Gardien.h"
+#include "../../../Labyrinthe.h"
 
 using namespace std;
 

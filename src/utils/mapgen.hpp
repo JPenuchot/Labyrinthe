@@ -26,8 +26,8 @@ namespace labyrinth::mapgen
     , Box&                              treasure
 
     //  Les vecteurs de Labyrinthe
-    , vector<Gardien*>&                  guardians
-    , vector<Chasseur*>&                 hunters
+    , vector<Gardien*>&                 guardians
+    , vector<Chasseur*>&                hunters
     );
 
   void distmap(Labyrinthe& lab, vector<int>& res);

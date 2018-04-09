@@ -51,7 +51,7 @@ public:
 
   /**
    * @brief      Dans le cas d'une collision, permet de trouver
-   * l'objet touche à la case (i,j) (type renseigne par la map)
+   * l'objet touche a la case (i,j) (type renseigne par la map)
    *
    * @param[in]  i     Hauteur
    * @param[in]  j     Largeur

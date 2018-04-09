@@ -1,3 +1,7 @@
+/**
+ * Contient le constructeur de Labyrinthe
+ */
+
 #include <fstream>
 #include <string>
 #include <vector>

@@ -9,7 +9,7 @@ set( CMAKE_CXX_COMPILER /usr/bin/clang++ )
 set( CMAKE_CXX_STANDARD 17 )
 #set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}" )
 set( CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O1" )
-set( CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O2" )
+set( CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3" )
 
 # Adding include directory for audio
 
@@ -32,15 +32,8 @@ set_source_files_properties( ${OBJS} PROPERTIES
 # Building object files
 file(GLOB_RECURSE SOURCES "src/*.cpp")
 
-#add_library( Labyrinthe OBJECT "src/Labyrinthe.cpp" )
-#add_library( Chasseur   OBJECT "src/entities/movers/Chasseur.cpp" )
-#add_library( Gardien    OBJECT "src/entities/movers/Gardien.cpp" )
-
 # Final executable
 add_executable( cstrike64
   ${OBJS}
   ${SOURCES}
-  #$<TARGET_OBJECTS:Labyrinthe>
-  #$<TARGET_OBJECTS:Chasseur>
-  #$<TARGET_OBJECTS:Gardien>
 )
