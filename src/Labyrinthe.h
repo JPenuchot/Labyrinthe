@@ -81,12 +81,13 @@ public:
         || e == Element::box
         || e == Element::treasure
         || text_ids.find(e) != text_ids.end()
-      ;
+        ;
   }
 };
 
 //  Forward declaration des fonctions de recherche contenues dans find.cpp
 
-template<> Chasseur* find<Chasseur> (Labyrinthe& lab, double x, double y);
-template<> Gardien*  find<Gardien>  (Labyrinthe& lab, double x, double y);
-template<> Wall*     find<Wall>     (Labyrinthe& lab, double x, double y);
+template<> Chasseur*  find<Chasseur>  (Labyrinthe& lab, double x, double y);
+template<> Gardien*   find<Gardien>   (Labyrinthe& lab, double x, double y);
+template<> Wall*      find<Wall>      (Labyrinthe& lab, double x, double y);
+template<> Box*       find<Box>       (Labyrinthe& lab, double x, double y);

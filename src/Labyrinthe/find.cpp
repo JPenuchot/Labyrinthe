@@ -39,15 +39,40 @@ Gardien* find<Gardien>(Labyrinthe& lab, double x, double y)
 template<>
 Wall* find<Wall>(Labyrinthe& lab, double x, double y)
 {
+  //  On cast x et y dans des int
+  int xi = x;
+  int yi = y;
+
   const auto begin = lab._walls;
   const auto end = lab._walls + lab._nwall;
   Wall* ret = nullptr;
 
-  for_each(begin, end, [&](Wall& w){
-    if (  ( (w._x1 <= (int)x && (int)x <= w._x2) && ((int)y == w._y1) )
-       || ( (w._y1 <= (int)y && (int)y <= w._y2) && ((int)x == w._x1) )
+  for_each(begin, end, [&](Wall& w)
+  {
+    if (  ( (w._x1 <= xi && xi <= w._x2) && (yi == w._y1) )
+       || ( (w._y1 <= yi && yi <= w._y2) && (xi == w._x1) )
        )
       ret = &w;
+  });
+
+  return ret;
+}
+
+template<>
+Box* find<Box>(Labyrinthe& lab, double x, double y)
+{
+  //  On cast x et y dans des int
+  int xi = x;
+  int yi = y;
+
+  const auto begin = lab._boxes;
+  const auto end = lab._boxes + lab._nboxes;
+  Box* ret = nullptr;
+
+  for_each(begin, end, [&](Box& b)
+  {
+    if ( b._x == xi && yi == b._y )
+      ret = &b;
   });
 
   return ret;
