@@ -16,9 +16,7 @@ fi
 
 ## Making directories
 
-mkdir -p ${CMAKE_BUILD_DIR}
-mkdir -p ${CMAKE_BUILD_DIR}/release
-mkdir -p ${CMAKE_BUILD_DIR}/debug
+mkdir -p ${CMAKE_BUILD_DIR}/{release,debug}
 
 ## BUILD
 
