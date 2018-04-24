@@ -2,13 +2,6 @@
 
 #include <ostream>
 
-/*
- *  Traduit un fichier de type definition de labyrinthe au format interne.
- */
-
-// Case vide (ou on peut marcher!)
-#define EMPTY 0
-
 extern void message (const char* format, ...);
 class Mover;
 
@@ -43,10 +36,10 @@ class Environnement {
 public:
   // Facteur d'echelle (defini par moi, mais utilise par vous)
   static const int scale;
-  
+
   // Repertoire des textures.
   static const char* texture_dir;
-  
+
   // Repertoire des personnages.
   static const char* modele_dir;
 

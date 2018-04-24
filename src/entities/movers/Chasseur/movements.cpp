@@ -1,27 +1,30 @@
-#include <iostream>
-
 #include "../Chasseur.h"
 #include "../../../Labyrinthe.h"
 
 using namespace std;
-
-static const double is = 1. / (double)Environnement::scale;
 
 /*
  *  Tente un deplacement.
  */
 bool Chasseur::move_aux (double dx, double dy)
 {
-  if(Element::empty == (*lab) ( (int)((_y + dy)  * is)
-                              , (int)((_x + dx)  * is) ) )
+  auto i = _y / (double)Environnement::scale;
+  auto j = _x / (double)Environnement::scale;
+
+  auto nx = _x + dx;
+  auto ny = _y + dy;
+
+  auto ni = ny / (double)Environnement::scale;
+  auto nj = nx / (double)Environnement::scale;
+
+  auto& curr_cell = (*lab)( i,  j);
+  auto& next_cell = (*lab)(ni, nj);
+
+  if(!lab->isWall(next_cell))
   {
-    auto self = (*lab)(_y, _x);
-    (*lab)(_y, _x) = Element::empty;
-
-    _x += dx;
-    _y += dy;
-
-    (*lab)(_y, _x) = self;
+    //  Update de la position
+    _x = nx;
+    _y = ny;
 
     return true;
   }

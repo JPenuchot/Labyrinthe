@@ -42,6 +42,7 @@ Labyrinthe::Labyrinthe (char* filename)
   auto add_spray = [&](char id, string path)
   {
     charSet.insert(id);
+    text_ids.insert(id);
 
     char* str = new char[path.size()];
     copy(path.begin(), path.end(), str);

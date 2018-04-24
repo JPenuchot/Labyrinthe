@@ -6,36 +6,47 @@
 
 using namespace std;
 
+template<typename T> constexpr double hit_dist2()           { return 1.; }
+template<>           constexpr double hit_dist2<Chasseur>() { return 10.; }
+template<>           constexpr double hit_dist2<Gardien>()  { return 10.; }
+
 template<>
-Chasseur* Labyrinthe::find<Chasseur>(int x, int y)
+Chasseur* find<Chasseur>(Labyrinthe& lab, double x, double y)
 {
-  for(auto h_ptr : this->hunters)
-    if(  (int)(h_ptr->_y / (float)Environnement::scale) == y
-      && (int)(h_ptr->_x / (float)Environnement::scale) == x )
+  for(auto h_ptr : lab.hunters)
+  { //  TODO : dist
+    if(  (int)(h_ptr->_y / (double)Environnement::scale) == (int)y
+      && (int)(h_ptr->_x / (double)Environnement::scale) == (int)x
+      )
       return h_ptr;
+  }
   return nullptr;
 }
 
 template<>
-Gardien* Labyrinthe::find<Gardien>(int x, int y)
+Gardien* find<Gardien>(Labyrinthe& lab, double x, double y)
 {
-  for(auto h_ptr : this->guardians)
-    if(  (int)(h_ptr->_y / (float)Environnement::scale) == y
-      && (int)(h_ptr->_x / (float)Environnement::scale) == x )
+  for(auto h_ptr : lab.guardians)
+  { //  TODO : dist
+    if(  (int)(h_ptr->_y / (double)Environnement::scale) == (int)y
+      && (int)(h_ptr->_x / (double)Environnement::scale) == (int)x
+      )
       return h_ptr;
+  }
   return nullptr;
 }
 
 template<>
-Wall* Labyrinthe::find<Wall>(int x, int y)
+Wall* find<Wall>(Labyrinthe& lab, double x, double y)
 {
-  const auto begin = _walls;
-  const auto end = _walls + _nwall;
+  const auto begin = lab._walls;
+  const auto end = lab._walls + lab._nwall;
   Wall* ret = nullptr;
 
   for_each(begin, end, [&](Wall& w){
-    if ( (w._x1 <= x && x <= w._x2)
-      || (w._y1 <= y && y <= w._y2) )
+    if (  ( (w._x1 <= (int)x && (int)x <= w._x2) && ((int)y == w._y1) )
+       || ( (w._y1 <= (int)y && (int)y <= w._y2) && ((int)x == w._x1) )
+       )
       ret = &w;
   });
 

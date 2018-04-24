@@ -5,20 +5,26 @@
 
 using namespace std;
 
-static const double is = 1. / (double)Environnement::scale;
-
 inline bool Gardien::move_aux (double dx, double dy)
 {
-  if(Element::empty == (*lab) ( (int)( (_y + dy) * is )
-                              , (int)( (_x + dx) * is ) ) )
+  auto i = _y / (double)Environnement::scale;
+  auto j = _x / (double)Environnement::scale;
+
+  auto nx = (_x + dx);
+  auto ny = (_y + dy);
+
+  auto ni = ny / (double)Environnement::scale;
+  auto nj = nx / (double)Environnement::scale;
+
+  if((*lab)(ni, nj) == Element::empty)
   {
-    auto self = (*lab)(_y, _x);
-    (*lab)(_y, _x) = Element::empty;
+    auto self = (*lab)(i, j);
+    (*lab)(i, j) = Element::empty;
 
-    _x += dx;
-    _y += dy;
+    _x = nx;
+    _y = ny;
 
-    (*lab)(_y, _x) = self;
+    (*lab)(ni, nj) = self;
 
     return true;
   }

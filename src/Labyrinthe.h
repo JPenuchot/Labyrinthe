@@ -1,5 +1,6 @@
 #pragma once
 
+#include <set>
 #include <vector>
 #include <iostream>
 
@@ -24,7 +25,7 @@ enum Element {
   treasure        = 'T',
 
   //  Emptiness...
-  empty           = EMPTY
+  empty           = ' '
 };
 
 using hit_info_t = Element;
@@ -33,6 +34,8 @@ class Labyrinthe : public Environnement {
 private:
   vector<char>  table;
   vector<int>   distmap;
+
+  set<char> text_ids;
 
   vector<Gardien*>   guardians;
   vector<Chasseur*>  hunters;
@@ -49,6 +52,8 @@ public:
   char& operator()      (int i, int j)  { return table[i * w + j]; }
   int dist_to_treasure  (int i, int j)  { return distmap[i * w + j]; }
 
+  void dump();
+
   /**
    * @brief      Dans le cas d'une collision, permet de trouver
    * l'objet touche a la case (i,j) (type renseigne par la map)
@@ -62,19 +67,26 @@ public:
    * nullptr si rien trouve.
    */
   template<typename T>
-  T* find(int x, int y) { return nullptr; }
+  friend T* find(Labyrinthe&, double, double) { return nullptr; }
 
-  void hit(int x, int y, Mover& shooter);
+  bool hit(double x, double y, Mover& shooter);
 
   ~Labyrinthe() { }
 
-  static bool isWall(char e)
+  bool isWall(char e)
   {
     return e == Element::wall_corner
         || e == Element::wall_horizontal
         || e == Element::wall_vertical
         || e == Element::box
         || e == Element::treasure
+        || text_ids.find(e) != text_ids.end()
       ;
   }
 };
+
+//  Forward declaration des fonctions de recherche contenues dans find.cpp
+
+template<> Chasseur* find<Chasseur> (Labyrinthe& lab, double x, double y);
+template<> Gardien*  find<Gardien>  (Labyrinthe& lab, double x, double y);
+template<> Wall*     find<Wall>     (Labyrinthe& lab, double x, double y);

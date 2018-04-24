@@ -72,7 +72,7 @@ namespace labyrinth::mapgen
         //  On filtre les murs et on ne depasse pas les bornes
         if ( !( 0 <= n.first  && n.first  < lab.height() )
           || !( 0 <= n.second && n.second < lab.width()  )
-          || Labyrinthe::isWall(access_lab(n))
+          || lab.isWall(access_lab(n))
           || access_visited(n)
            )
           continue;

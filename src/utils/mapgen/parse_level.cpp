@@ -97,6 +97,8 @@ namespace labyrinth::mapgen
 
       hunters.push_back(nc);
 
+      cout << "Hunter(_x = " << nc->_x << " ; _y = " << nc->_y << " )\n";
+
       //  On ajoute le pointeur vers le chasseur en tete de movers
       if(!movers.empty())
         { movers.push_back(movers[0]); movers[0] = nc; }
@@ -121,7 +123,7 @@ namespace labyrinth::mapgen
       {
         const char curr_char = mapvec[i][j];
 
-        lab(i, j) = curr_char == ' ' ? Element::empty : curr_char;
+        lab(i, j) = curr_char;
 
         //    2.1/ GESTION DES MURS/AFFICHES
 
@@ -142,16 +144,17 @@ namespace labyrinth::mapgen
         {
           switch(curr_char)
           {
-            //  Ajout des chasseurs/gardiens
-            case Element::hunter:   addHunter(i, j); break;
-            case Element::guardian: addGuardian(i, j); break;
+            case Element::hunter:   addHunter(i, j);
+                                    break;
 
-            //  Ajout des elements de map
-            case Element::treasure:
-              treasure = { (int)j, (int)i, 0 }; break;
+            case Element::guardian: addGuardian(i, j);
+                                    break;
 
-            case Element::box:
-              boxes.push_back({ (int)j, (int)i, 0 }); break;
+            case Element::treasure: treasure = { (int)j, (int)i, 0 };
+                                    break;
+
+            case Element::box:      boxes.push_back({ (int)j, (int)i, 0 });
+                                    break;
 
             default: break;
           }

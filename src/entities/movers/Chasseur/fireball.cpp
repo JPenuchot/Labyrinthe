@@ -5,33 +5,23 @@
 
 using namespace std;
 
-static const double is = 1. / (double)Environnement::scale;
+const double is = 1. / (double)Environnement::scale;
 
 /*
- *  Fait bouger la boule de feu (ceci est une exemple, a vous de traiter
- *  les collisions specifiques...)
+ *  Fait bouger la boule de feu
  */
-bool Chasseur::process_fireball (float dx, float dy)
+bool Chasseur::process_fireball(float dx, float dy)
 {
-  message("...");
+  float x = ( _fb->get_x() + dx ) * is;
+  float y = ( _fb->get_y() + dy ) * is;
 
-  //  Calculer la distance entre le chasseur et le lieu de l'explosion.
-  float x = (_fb->get_x() + dx) * is;
-  float y = (_fb->get_y() + dy) * is;
-  
-  //  On bouge que dans le vide!
-  if ( Element::empty == (*lab)  ( (int)y, (int)x ) )
-  { return true; }
-
-  lab->hit(x, y, *this);
-
-  return false;
+  return lab->hit(x, y, *this);
 }
 
 /*
  *  Tire sur un ennemi.
  */
-void Chasseur::fire (int angle_vertical)
+void Chasseur::fire(int angle_vertical)
 {
   _hunter_fire->play();
   _fb->init(_x, _y, 10., angle_vertical, _angle);
