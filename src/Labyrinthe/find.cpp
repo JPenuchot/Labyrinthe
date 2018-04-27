@@ -1,20 +1,17 @@
 #include <algorithm>
 
+#include "../Labyrinthe.h"
+
 #include "../entities/movers/Chasseur.h"
 #include "../entities/movers/Gardien.h"
-#include "../Labyrinthe.h"
 
 using namespace std;
 
-template<typename T> constexpr double hit_dist2()           { return 1.; }
-template<>           constexpr double hit_dist2<Chasseur>() { return 10.; }
-template<>           constexpr double hit_dist2<Gardien>()  { return 10.; }
-
 template<>
-Chasseur* find<Chasseur>(Labyrinthe& lab, double x, double y)
+Chasseur* findInLab<Chasseur>(Labyrinthe& lab, double x, double y)
 {
   for(auto h_ptr : lab.hunters)
-  { //  TODO : dist
+  { //  TODO : dist ?
     if(  (int)(h_ptr->_y / (double)Environnement::scale) == (int)y
       && (int)(h_ptr->_x / (double)Environnement::scale) == (int)x
       )
@@ -24,10 +21,10 @@ Chasseur* find<Chasseur>(Labyrinthe& lab, double x, double y)
 }
 
 template<>
-Gardien* find<Gardien>(Labyrinthe& lab, double x, double y)
+Gardien* findInLab<Gardien>(Labyrinthe& lab, double x, double y)
 {
   for(auto h_ptr : lab.guardians)
-  { //  TODO : dist
+  { //  TODO : dist ?
     if(  (int)(h_ptr->_y / (double)Environnement::scale) == (int)y
       && (int)(h_ptr->_x / (double)Environnement::scale) == (int)x
       )
@@ -37,7 +34,7 @@ Gardien* find<Gardien>(Labyrinthe& lab, double x, double y)
 }
 
 template<>
-Wall* find<Wall>(Labyrinthe& lab, double x, double y)
+Wall* findInLab<Wall>(Labyrinthe& lab, double x, double y)
 {
   //  On cast x et y dans des int
   int xi = x;
@@ -59,7 +56,7 @@ Wall* find<Wall>(Labyrinthe& lab, double x, double y)
 }
 
 template<>
-Box* find<Box>(Labyrinthe& lab, double x, double y)
+Box* findInLab<Box>(Labyrinthe& lab, double x, double y)
 {
   //  On cast x et y dans des int
   int xi = x;

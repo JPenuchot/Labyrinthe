@@ -46,11 +46,11 @@ private:
 public:
   Labyrinthe (char*);
 
-  int width  ()                         { return w; }
-  int height ()                         { return h; }
+  int width  () { return w; }
+  int height () { return h; }
 
-  char& operator()      (int i, int j)  { return table[i * w + j]; }
-  int dist_to_treasure  (int i, int j)  { return distmap[i * w + j]; }
+  inline char& operator()      (int i, int j)  { return table[i * w + j]; }
+  inline int dist_to_treasure  (int i, int j)  { return distmap[i * w + j]; }
 
   void dump();
 
@@ -66,14 +66,12 @@ public:
    * @return     Pointeur vers l'objet recherche,
    * nullptr si rien trouve.
    */
-  template<typename T>
-  friend T* find(Labyrinthe&, double, double) { return nullptr; }
-
-  bool hit(double x, double y, Mover& shooter);
+  template <typename T>
+  friend T* findInLab (Labyrinthe& lab, double x, double y);
 
   ~Labyrinthe() { }
 
-  bool isWall(char e)
+  inline bool isWall(char e)
   {
     return e == Element::wall_corner
         || e == Element::wall_horizontal
@@ -85,9 +83,10 @@ public:
   }
 };
 
-//  Forward declaration des fonctions de recherche contenues dans find.cpp
+template <typename T>
+T* findInLab (Labyrinthe& lab, double x, double y) { return nullptr; }
 
-template<> Chasseur*  find<Chasseur>  (Labyrinthe& lab, double x, double y);
-template<> Gardien*   find<Gardien>   (Labyrinthe& lab, double x, double y);
-template<> Wall*      find<Wall>      (Labyrinthe& lab, double x, double y);
-template<> Box*       find<Box>       (Labyrinthe& lab, double x, double y);
+template <> Chasseur* findInLab<Chasseur> (Labyrinthe& lab, double x, double y);
+template <> Gardien*  findInLab<Gardien>  (Labyrinthe& lab, double x, double y);
+template <> Wall*     findInLab<Wall>     (Labyrinthe& lab, double x, double y);
+template <> Box*      findInLab<Box>      (Labyrinthe& lab, double x, double y);

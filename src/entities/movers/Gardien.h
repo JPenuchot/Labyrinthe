@@ -1,8 +1,10 @@
 #pragma once
 
 #include "Mover.h"
+#include "Chasseur.h"
 
 class Labyrinthe;
+class Chasseur;
 
 static const char modmarv[] = "Marvin";
 
@@ -30,11 +32,8 @@ public:
   bool move_aux (double dx, double dy);
 
   /*
-   *    GAMEPLAY
+   *    GAMEPLAY - Defined in ./Gardien/gameplay.cpp
    */
 
-  /**
-   * @brief      Le gardien se fait tirer dessus
-   */
   void hit();
 };

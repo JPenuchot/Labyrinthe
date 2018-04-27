@@ -5,17 +5,21 @@
 #include "../../Sound.h"
 
 #include "Mover.h"
+#include "Gardien.h"
 
 class Labyrinthe;
+class Gardien;
 
 class Chasseur : public Mover {
 private:
   //  Accepte ou non un deplacement.
   bool move_aux (double dx, double dy);
-  
+
   //  Labyrinthe (On ne veut pas faire de cast sur Environnement,
   //  on n'est pas des animaux...)
   Labyrinthe* lab;
+
+  float life = 100.f;
 
 public:
   /*
