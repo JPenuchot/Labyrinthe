@@ -11,11 +11,10 @@ static const char modmarv[] = "Marvin";
 class Gardien : public Mover {
 Labyrinthe* lab;
 
+float health;
+
 public:
-  Gardien(int x, int y, Labyrinthe* l):
-  Mover(x, y, l, modmarv),
-  lab(l)
-  {}
+  Gardien(int x, int y, Labyrinthe* l);
 
   ~Gardien () {}
 
@@ -36,4 +35,11 @@ public:
    */
 
   void hit();
+  void die();
+
+  /*
+   * AI
+   */
+
+  void moveToHunter(float agressivity);
 };

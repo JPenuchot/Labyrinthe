@@ -1,9 +1,9 @@
 #include <algorithm>
 
-#include "../Labyrinthe.h"
+#include "../../Labyrinthe.h"
 
-#include "../entities/movers/Chasseur.h"
-#include "../entities/movers/Gardien.h"
+#include "../../entities/movers/Chasseur.h"
+#include "../../entities/movers/Gardien.h"
 
 using namespace std;
 

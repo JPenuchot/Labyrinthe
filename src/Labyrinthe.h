@@ -69,6 +69,22 @@ public:
   template <typename T>
   friend T* findInLab (Labyrinthe& lab, double x, double y);
 
+  bool remove (Chasseur* c);
+  bool remove (Gardien* g);
+  bool remove (Box* b);
+
+  /**
+   * @brief      Retire un élément du labyrinthe.
+   *
+   * @param      e          Élément à retirer
+   *
+   * @tparam     T          Type de l'élément
+   *
+   * @return     true si succès sinon false.
+   */
+  template <typename T>
+  friend bool removeFromLab(Labyrinthe& lab, T* e);
+
   ~Labyrinthe() { }
 
   inline bool isWall(char e)
@@ -86,7 +102,7 @@ public:
 template <typename T>
 T* findInLab (Labyrinthe& lab, double x, double y) { return nullptr; }
 
-template <> Chasseur* findInLab<Chasseur> (Labyrinthe& lab, double x, double y);
-template <> Gardien*  findInLab<Gardien>  (Labyrinthe& lab, double x, double y);
-template <> Wall*     findInLab<Wall>     (Labyrinthe& lab, double x, double y);
-template <> Box*      findInLab<Box>      (Labyrinthe& lab, double x, double y);
+template <> Chasseur* findInLab (Labyrinthe& lab, double x, double y);
+template <> Gardien*  findInLab (Labyrinthe& lab, double x, double y);
+template <> Wall*     findInLab (Labyrinthe& lab, double x, double y);
+template <> Box*      findInLab (Labyrinthe& lab, double x, double y);

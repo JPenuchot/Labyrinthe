@@ -29,8 +29,8 @@ namespace labyrinth::mapgen
     , Box&                              treasure
 
     //  Les vecteurs de Labyrinthe
-    , vector<Gardien*>&                  guardians
-    , vector<Chasseur*>&                 hunters
+    , vector<Gardien*>&                 guardians
+    , vector<Chasseur*>&                hunters
     )
   {
     auto& charSet = spray_info.first;
@@ -97,8 +97,6 @@ namespace labyrinth::mapgen
 
       hunters.push_back(nc);
 
-      cout << "Hunter(_x = " << nc->_x << " ; _y = " << nc->_y << " )\n";
-
       //  On ajoute le pointeur vers le chasseur en tete de movers
       if(!movers.empty())
         { movers.push_back(movers[0]); movers[0] = nc; }
@@ -106,7 +104,7 @@ namespace labyrinth::mapgen
         movers.push_back(nc);
     };
 
-    //  Verifie si un caractere est un sprite
+    //  Vérifie si un caractere est un sprite
     const auto isSprite = [&](char c)
       { return charSet.find(c) != charSet.end(); };
 
@@ -114,7 +112,7 @@ namespace labyrinth::mapgen
      *    2/ PARCOURS HORIZONTAL
      *
      *      - Ajout des murs horizontaux
-     *      - Ajout des **entites**
+     *      - Ajout des **entités**
      */
 
     for(size_t i = 0; i < mapvec.size(); i++)
@@ -146,16 +144,12 @@ namespace labyrinth::mapgen
           {
             case Element::hunter:   addHunter(i, j);
                                     break;
-
             case Element::guardian: addGuardian(i, j);
                                     break;
-
             case Element::treasure: treasure = { (int)j, (int)i, 0 };
                                     break;
-
             case Element::box:      boxes.push_back({ (int)j, (int)i, 0 });
                                     break;
-
             default: break;
           }
         }
