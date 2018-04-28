@@ -16,13 +16,13 @@ bool Gardien::process_fireball (float dx, float dy)
   float y = ( _fb->get_y() + dy ) * is;
 
   //  Lorsqu'on touche un chasseur...
-  auto detectHunterCollision = [&]()
+  auto detectGuardianCollision = [&]()
   {
-    Chasseur* hun = findInLab<Chasseur>(*lab, x, y);
-    if(!hun) return true;
+    Gardien* gar = findInLab<Gardien>(*lab, x, y);
+    if(!gar) return true;
 
-    message("Gotcha, Hunter !");
-    hun->hit();
+    message("Gotcha, Guardian !");
+    gar->hit();
     return false;
   };
 
@@ -49,7 +49,7 @@ bool Gardien::process_fireball (float dx, float dy)
 
   //  Algo
   return detectWallCollision      ()
-      && detectHunterCollision    ()
+      && detectGuardianCollision  ()
       && detectBoxCollision       ()
       ;
 }
