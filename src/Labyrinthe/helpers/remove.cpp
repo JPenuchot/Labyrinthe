@@ -72,10 +72,13 @@ bool Labyrinthe::remove(Wall* w)
 
   if(pos == walls_end) return false;
 
-  //  On retire dans la map
-  for(int i = w->_y1; i <= w->_y2; i++)
+  //  On retire les traces du mur dans la map
+  if(w->_y1 == w->_y2)
     for(int j = w->_x1; j <= w->_x2; j++)
-      (*this)(i, j) = Element::empty;
+      (*this)(w->_y1, j) = Element::empty;
+  else
+    for(int i = w->_y1; i <= w->_y2; i++)
+      (*this)(i, w->_x1) = Element::empty;
 
   //  On retire dans le tableau de Environnement (en décalant tout)
   copy(pos + 1, walls_end, pos);
