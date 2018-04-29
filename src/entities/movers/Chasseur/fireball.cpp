@@ -35,6 +35,8 @@ bool Chasseur::process_fireball(float dx, float dy)
 
     message("Gotcha, Wall !");
 
+    this->lab->remove(wal);
+
     return false;
   };
 
@@ -44,6 +46,8 @@ bool Chasseur::process_fireball(float dx, float dy)
     if(!box) return true;
 
     message("Gotcha, box !");
+
+    this->lab->remove(box);
 
     return false;
   };

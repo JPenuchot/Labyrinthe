@@ -30,6 +30,11 @@ enum Element {
 
 using hit_info_t = Element;
 
+/**
+ * Représente une coordonnée (i, j).
+ */
+using pos_t = pair<int, int>;
+
 class Labyrinthe : public Environnement {
 private:
   vector<char>  table;
@@ -72,6 +77,7 @@ public:
   bool remove (Chasseur* c);
   bool remove (Gardien* g);
   bool remove (Box* b);
+  bool remove(Wall* w);
 
   /**
    * @brief      Retire un élément du labyrinthe.

@@ -45,4 +45,43 @@ bool Labyrinthe::remove(Gardien* g)
 }
 
 bool Labyrinthe::remove(Box* b)
-  { return false; } //  Thinking.jpg
+{
+  auto boxes_end = this->_boxes + this->_nboxes;
+
+  auto pos = find_if(this->_boxes, boxes_end, [&](auto& elmt)
+    { return &elmt == b; });
+  if(pos == boxes_end) return false;
+
+  //  On retire dans la map
+  (*this)(b->_y, b->_x) = Element::empty;
+
+  //  On retire dans le tableau de Environnement (en décalant tout)
+  copy(pos + 1, boxes_end, pos);
+
+  //  Appel de reconfigure pour rafaîchir la map...
+  this->reconfigure();
+
+  return true;
+}
+
+bool Labyrinthe::remove(Wall* w)
+{
+  auto walls_end = this->_walls + this->_nwall;
+  auto pos = find_if(this->_walls, walls_end, [&](auto& elmt)
+    { return &elmt == w; });
+
+  if(pos == walls_end) return false;
+
+  //  On retire dans la map
+  for(int i = w->_y1; i <= w->_y2; i++)
+    for(int j = w->_x1; j <= w->_x2; j++)
+      (*this)(i, j) = Element::empty;
+
+  //  On retire dans le tableau de Environnement (en décalant tout)
+  copy(pos + 1, walls_end, pos);
+
+  //  Appel de reconfigure pour rafaîchir la map...
+  this->reconfigure();
+
+  return true;
+}

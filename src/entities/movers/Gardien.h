@@ -11,6 +11,7 @@ static const char modmarv[] = "Marvin";
 class Gardien : public Mover {
 Labyrinthe* lab;
 
+float direction;
 float health;
 
 public:
