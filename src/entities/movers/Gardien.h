@@ -41,5 +41,7 @@ public:
    * AI
    */
 
-  void moveToHunter(float agressivity);
+  void moveToHunter (float agressivity);
+  void shootHunter  (float agressivity);
+  void moveRandomly ();
 };

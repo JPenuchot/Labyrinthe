@@ -15,4 +15,5 @@ void Gardien::die()
 {
   message("F");
   this->lab->remove(this);
+  delete this;
 }
