@@ -1,35 +1,37 @@
 #pragma once
 
+#include <memory>
+#include <random>
+
 #include "Mover.h"
 #include "Chasseur.h"
+#include "../../utils/types.hpp"
 
 class Labyrinthe;
 class Chasseur;
 
 static const char modmarv[] = "Marvin";
 
-class Gardien : public Mover {
-Labyrinthe* lab;
+class Gardien : public Mover
+{
+  Labyrinthe* lab;
 
-float direction;
-float health;
+  std::unique_ptr<pos_int> destination;
+
+  float health;
 
 public:
   Gardien(int x, int y, Labyrinthe* l);
-
   ~Gardien () {}
 
-  void update (void);
+  inline static float speed = 1.f;
 
+  bool move             (double dx, double dy);
+  bool move_aux         (double dx, double dy);
+
+  void fire             (int angle_vertical);
+  void right_click      (bool shift, bool control);
   bool process_fireball (float dx, float dy);
-
-  bool move (double dx, double dy);
-
-  void fire (int angle_vertical);
-
-  void right_click (bool shift, bool control);
-
-  bool move_aux (double dx, double dy);
 
   /*
    *    GAMEPLAY - Defined in ./Gardien/gameplay.cpp
@@ -42,7 +44,11 @@ public:
    * AI
    */
 
+  void update       ();
   void moveToHunter (float agressivity);
   void shootHunter  (float agressivity);
-  void moveRandomly ();
+
+  bool moveTowardsDest  ();
+  void setRandomDest    ();
+  void moveRandomly     ();
 };

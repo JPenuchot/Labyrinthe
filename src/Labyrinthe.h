@@ -7,6 +7,7 @@
 #include "Environnement.h"
 
 #include "entities/movers.hpp"
+#include "utils/types.hpp"
 
 using namespace std;
 
@@ -30,11 +31,6 @@ enum Element {
 
 using hit_info_t = Element;
 
-/**
- * Représente une coordonnée (i, j).
- */
-using pos_t = pair<int, int>;
-
 class Labyrinthe : public Environnement {
 private:
   vector<char>  table;
@@ -55,6 +51,9 @@ public:
   int height () { return h; }
 
   inline char& operator()      (int i, int j)  { return table[i * w + j]; }
+  inline char& operator()      (pos_int& pos_ij)
+    { return table[pos_ij.first * w + pos_ij.second]; }
+
   inline int dist_to_treasure  (int i, int j)  { return distmap[i * w + j]; }
 
   void dump();
