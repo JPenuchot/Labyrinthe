@@ -5,11 +5,9 @@ b affiche2.jpg  # texture de l'affiche 2
 
 
 +-+-+-+
-| | | |
+| | | b
 +-+-+-+
-| | | |
+| | |C|
 +-+-+-+
 |T|x| |
 +-+-+-+
-
-
