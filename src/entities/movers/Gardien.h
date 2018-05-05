@@ -1,7 +1,8 @@
 #pragma once
 
-#include <optional>
+#include <queue>
 #include <random>
+#include <optional>
 
 #include "Mover.h"
 #include "Chasseur.h"
@@ -16,7 +17,8 @@ class Gardien : public Mover
 {
   Labyrinthe* lab;
 
-  std::optional<pos_int> destination;
+  //  Navigation
+  std::queue<pos_int> path_to_follow;
 
   float health;
 
@@ -35,6 +37,10 @@ public:
   void right_click      (bool shift, bool control);
   bool process_fireball (float dx, float dy);
 
+  inline pos_int get_pos_int()
+    { return std::make_pair ( (int)(this->_y / Environnement::scale)
+                            , (int)(this->_y / Environnement::scale) ); }
+
   /*
    *    GAMEPLAY - Defined in ./Gardien/gameplay.cpp
    */
@@ -50,7 +56,9 @@ public:
   void moveToHunter (float agressivity);
   void shootHunter  (float agressivity);
 
-  void moveTowardsDest  ();
-  void setRandomDest    ();
-  void moveRandomly     ();
+  void followPath     ();
+  void setRandomDest  ();
+  void moveRandomly   ();
+
+  void followPath(std::queue<pos_int>& path);
 };

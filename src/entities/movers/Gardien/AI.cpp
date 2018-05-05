@@ -15,10 +15,7 @@ using namespace std;
  * @brief      Update du gardien et point d'entrée pour la partie AI du projet
  */
 void Gardien::update ()
-{
-  if (this->health <= 0.f) this->die();
-  moveRandomly();
-}
+  { if(!this->path_to_follow.empty()) followPath(); }
 
 void Gardien::setRandomDest()
 {
@@ -67,54 +64,36 @@ void Gardien::setRandomDest()
                         , start.second + dir_j * dist );
   }
 
-  this->destination = make_optional<pos_int>(prev_pos);
-
-  message("New dest : %d, %d", prev_pos.first, prev_pos.second);
+  this->lab->findPath(this->get_pos_int(), prev_pos, this->path_to_follow);
+  message("New destination : %d, %d", prev_pos.first, prev_pos.second);
 }
 
-void Gardien::moveToHunter (float agressivity)
-{
-  //  TODO
-}
-
-void Gardien::shootHunter  (float agressivity)
-{
-  //  TODO
-}
-
-void Gardien::moveTowardsDest ()
+void Gardien::followPath()
 {
   auto curr_pos = make_pair ( (int)(this->_y / Environnement::scale)
                             , (int)(this->_x / Environnement::scale) );
 
+  auto& curr_dest = this->path_to_follow.front();
+
   //  Cas où on a atteint la destination
-  if (curr_pos == this->destination.value())
-    this->destination.reset();
+  if (curr_pos == curr_dest)
+    this->path_to_follow.pop();
 
   //  Sinon...
   else
   {
-    float di = this->destination.value().first  - curr_pos.first;
-    float dj = this->destination.value().second - curr_pos.second;
+    float di = curr_dest.first  - curr_pos.first;
+    float dj = curr_dest.second - curr_pos.second;
 
     float inv_norm = 1.f / sqrt((di * di) + (dj * dj));
 
-    float dx = dj * inv_norm * Gardien::speed;
-    float dy = di * inv_norm * Gardien::speed;
+    float dx = dj * inv_norm * Environnement::scale * Gardien::speed;
+    float dy = di * inv_norm * Environnement::scale * Gardien::speed;
 
-    //message("move %f %f", dx, dy);
     move(dx, dy);
     this->lab->reconfigure();
   }
 }
 
-void Gardien::moveRandomly ()
-{
-  pos_float origin = make_pair( this->_y / Environnement::scale
-                              , this->_x / Environnement::scale );
-
-  if(this->destination.has_value())
-    this->moveTowardsDest();
-  else
-    this->setRandomDest();
-}
+void Gardien::moveToHunter (float agressivity) { /* TODO */ }
+void Gardien::shootHunter  (float agressivity) { /* TODO */ }
