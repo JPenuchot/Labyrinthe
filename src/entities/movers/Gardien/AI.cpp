@@ -1,12 +1,15 @@
+#include <algorithm>
 #include <array>
 #include <cmath>
 
-#ifndef M_PIf32
-  #define M_PIf32  3.141592653589793238462643383279502884 /* pi */
+#ifndef M_PI
+  #define M_PI  3.141592653589793238462643383279502884 /* pi */
 #endif
 
 #include "../Gardien.h"
 #include "../../../Labyrinthe.h"
+
+using namespace std;
 
 /**
  * @brief      Update du gardien et point d'entrée pour la partie AI du projet
@@ -24,19 +27,17 @@ void Gardien::setRandomDest()
   //          sans se taper un putain de mur au milieu. On adore.
 
   //  On initialise le générateur de nombre pseudo-random
-  std::random_device rd;
-  std::mt19937 gen(rd());
+  mt19937 gen(rd());
 
   //  Pour l'angle
-  uniform_real_distribution<> rad(0, 2.f * M_PIf32);
+  uniform_real_distribution<> rad(0, 2.f * M_PI);
   //  Pour la proba d'incrémenter la distance
   uniform_real_distribution<> prob(0, 1.f);
 
 
   //  On initialise la position de départ
   pos_int start = make_pair ( this->_y / Environnement::scale
-                            , this->_x / Environnement::scale
-                            );
+                            , this->_x / Environnement::scale );
 
   //  On calcule un angle et on calcule les sin/cos correspondants
   //  pour donner une direction pour chaque composante
@@ -49,8 +50,7 @@ void Gardien::setRandomDest()
   float dist = 1.f;
 
   pos_int new_pos = make_pair ( start.first  + dir_i * dist
-                              , start.second + dir_j * dist
-                              );
+                              , start.second + dir_j * dist );
 
   auto prev_pos = new_pos;
 
@@ -64,11 +64,10 @@ void Gardien::setRandomDest()
 
     //  On update la nouvelle
     pos_int new_pos = make_pair ( start.first  + dir_i * dist
-                                , start.second + dir_j * dist
-                                );
+                                , start.second + dir_j * dist );
   }
 
-  this->destination = make_unique<pos_int>(prev_pos);
+  this->destination = make_optional<pos_int>(prev_pos);
 }
 
 void Gardien::moveToHunter (float agressivity)
@@ -87,21 +86,21 @@ bool Gardien::moveTowardsDest ()
                             , (int)(this->_x / Environnement::scale) );
 
   //  Si on n'a pas de destination *snif*
-  if (!this->destination)
+  if (!this->destination.has_value())
     return false;
 
   //  Cas où on a atteint la destination
-  else if (curr_pos == *this->destination)
+  else if (curr_pos == this->destination.value())
   {
-    this->destination = nullptr;
+    this->destination.reset();
     return false;
   }
 
   //  Si on a bel et bien une destination
   else
   {
-    float di = this->destination->first  - curr_pos.first;
-    float dj = this->destination->second - curr_pos.second;
+    float di = this->destination.value().first  - curr_pos.first;
+    float dj = this->destination.value().second - curr_pos.second;
 
     float inv_norm = 1.f / sqrt(di * di + dj * dj);
 

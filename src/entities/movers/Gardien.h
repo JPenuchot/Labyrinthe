@@ -1,6 +1,6 @@
 #pragma once
 
-#include <memory>
+#include <optional>
 #include <random>
 
 #include "Mover.h"
@@ -16,9 +16,11 @@ class Gardien : public Mover
 {
   Labyrinthe* lab;
 
-  std::unique_ptr<pos_int> destination;
+  std::optional<pos_int> destination;
 
   float health;
+
+  std::random_device rd;
 
 public:
   Gardien(int x, int y, Labyrinthe* l);
