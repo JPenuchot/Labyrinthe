@@ -30,9 +30,9 @@ void Gardien::setRandomDest()
   mt19937 gen(rd());
 
   //  Pour l'angle
-  uniform_real_distribution<> rad(0, 2.f * M_PI);
+  uniform_real_distribution<> angle_dist(0.f, 2.f * M_PI);
   //  Pour la proba d'incrémenter la distance
-  uniform_real_distribution<> prob(0, 1.f);
+  uniform_real_distribution<> prob_dist(0.f, 1.f);
 
 
   //  On initialise la position de départ
@@ -41,7 +41,7 @@ void Gardien::setRandomDest()
 
   //  On calcule un angle et on calcule les sin/cos correspondants
   //  pour donner une direction pour chaque composante
-  float angle = rad(gen);
+  float angle = angle_dist(gen);
 
   float dir_i = sin(angle);
   float dir_j = cos(angle);
@@ -49,25 +49,27 @@ void Gardien::setRandomDest()
   //  Distance initiale proposée
   float dist = 1.f;
 
-  pos_int new_pos = make_pair ( start.first  + dir_i * dist
-                              , start.second + dir_j * dist );
+  pos_int new_pos = make_pair ( start.first  + (dir_i * dist)
+                              , start.second + (dir_j * dist) );
 
   auto prev_pos = new_pos;
 
   //  machin et tout
-  while(prob(gen) > .1 && !lab->isWall((*lab)(new_pos)))
+  while(prob_dist(gen) > .01 && !lab->isWall((*lab)(new_pos)))
   {
-    dist++;
+    dist += .1f;
 
     //  On conserve l'ancienne position pour ne pas sortir du labyrinthe
     prev_pos = new_pos;
 
     //  On update la nouvelle
-    pos_int new_pos = make_pair ( start.first  + dir_i * dist
-                                , start.second + dir_j * dist );
+    new_pos = make_pair ( start.first  + dir_i * dist
+                        , start.second + dir_j * dist );
   }
 
   this->destination = make_optional<pos_int>(prev_pos);
+
+  message("New dest : %d, %d", prev_pos.first, prev_pos.second);
 }
 
 void Gardien::moveToHunter (float agressivity)
@@ -80,37 +82,30 @@ void Gardien::shootHunter  (float agressivity)
   //  TODO
 }
 
-bool Gardien::moveTowardsDest ()
+void Gardien::moveTowardsDest ()
 {
   auto curr_pos = make_pair ( (int)(this->_y / Environnement::scale)
                             , (int)(this->_x / Environnement::scale) );
 
-  //  Si on n'a pas de destination *snif*
-  if (!this->destination.has_value())
-    return false;
-
   //  Cas où on a atteint la destination
-  else if (curr_pos == this->destination.value())
-  {
+  if (curr_pos == this->destination.value())
     this->destination.reset();
-    return false;
-  }
 
-  //  Si on a bel et bien une destination
+  //  Sinon...
   else
   {
     float di = this->destination.value().first  - curr_pos.first;
     float dj = this->destination.value().second - curr_pos.second;
 
-    float inv_norm = 1.f / sqrt(di * di + dj * dj);
+    float inv_norm = 1.f / sqrt((di * di) + (dj * dj));
 
     float dx = dj * inv_norm * Gardien::speed;
     float dy = di * inv_norm * Gardien::speed;
 
+    //message("move %f %f", dx, dy);
     move(dx, dy);
+    this->lab->reconfigure();
   }
-
-  return true;
 }
 
 void Gardien::moveRandomly ()
@@ -118,10 +113,8 @@ void Gardien::moveRandomly ()
   pos_float origin = make_pair( this->_y / Environnement::scale
                               , this->_x / Environnement::scale );
 
-  if(this->moveTowardsDest());
+  if(this->destination.has_value())
+    this->moveTowardsDest();
   else
-  {
-    //  Find random destination
     this->setRandomDest();
-  }
 }
