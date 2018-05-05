@@ -69,7 +69,7 @@ void Labyrinthe::findPath(pos_int from, pos_int to, queue<pos_int>& res)
   //  On part de la destination et on remonte jusqu'à l'origine
   //  (rappel : elles ont été inversées pour que le chemin soit
   //            enfilé dans le bon ordre)
-  //
+
   auto next = from;
   while(next != to)
   {
