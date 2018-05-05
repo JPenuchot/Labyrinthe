@@ -6,7 +6,7 @@
 
 using namespace std;
 
-void findPath(pos_int from, pos_int to, queue<pos_int>& res)
+void Labyrinthe::findPath(pos_int from, pos_int to, queue<pos_int>& res)
 {
   //  Heuristique
   auto h = [](pos_int& a, pos_int& b)
@@ -46,7 +46,10 @@ void findPath(pos_int from, pos_int to, queue<pos_int>& res)
     for(auto& n : neighbors)
     {
       //  On saute les éléments déjà vus
-      if(costMap.find(n) == costMap.end()) continue;
+      if  ( costMap.find(n) == costMap.end()
+         || this->isWall((*this)(n))
+          )
+        continue;
 
       //  On définit le coût du sommet (de la case)
       costMap[n] = curr_cost + 1;
