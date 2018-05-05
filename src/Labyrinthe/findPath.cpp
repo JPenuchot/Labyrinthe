@@ -8,6 +8,17 @@ using namespace std;
 
 void Labyrinthe::findPath(pos_int from, pos_int to, queue<pos_int>& res)
 {
+  //  Retourne les 4 voisins d'une position
+  auto neighborsOf = [](pos_int& p)
+  {
+    return array<pos_int, 4> (
+      { make_pair(p.first + 1, p.second)
+      , make_pair(p.first - 1, p.second)
+      , make_pair(p.first, p.second + 1)
+      , make_pair(p.first, p.second - 1)
+      });
+  };
+
   //  Heuristique
   auto h = [](pos_int& a, pos_int& b)
     { return abs(b.first - a.first) + abs(b.second - a.second); };
@@ -36,19 +47,12 @@ void Labyrinthe::findPath(pos_int from, pos_int to, queue<pos_int>& res)
     q.pop();
 
     //  On définit l'ensemble des voisins
-    array<pos_int, 4> neighbors =
-      { make_pair( curr_pos.first + 1 , curr_pos.second )
-      , make_pair( curr_pos.first - 1 , curr_pos.second )
-      , make_pair( curr_pos.first     , curr_pos.second + 1 )
-      , make_pair( curr_pos.first     , curr_pos.second - 1 )
-      };
+    auto neighbors = neighborsOf(curr_pos);
 
     for(auto& n : neighbors)
     {
       //  On saute les éléments déjà vus
-      if  ( costMap.find(n) == costMap.end()
-         || this->isWall((*this)(n))
-          )
+      if ( costMap.find(n) == costMap.end() || this->isWall((*this)(n)) )
         continue;
 
       //  On définit le coût du sommet (de la case)
@@ -62,24 +66,20 @@ void Labyrinthe::findPath(pos_int from, pos_int to, queue<pos_int>& res)
 
   //  Backtrack : on part de from et on remonte jusqu'à "to"
 
+  //  On part de la destination et on remonte jusqu'à l'origine
+  //  (rappel : elles ont été inversées pour que le chemin soit
+  //            enfilé dans le bon ordre)
+  //
   auto next = from;
   while(next != to)
   {
     res.push(next);
 
-    array<pos_int, 4> neighbors =
-      { make_pair( next.first + 1 , next.second )
-      , make_pair( next.first - 1 , next.second )
-      , make_pair( next.first     , next.second + 1 )
-      , make_pair( next.first     , next.second - 1 )
-      };
-
     auto curr_cost = costMap[next];
+    auto neighbors = neighborsOf(next);
 
     for(auto& n : neighbors)
-    {
-      if(costMap.find(n) != costMap.end() && costMap[n] < costMap[next])
+      if( costMap.find(n) != costMap.end() && costMap[n] < costMap[next] )
         next = n;
-    }
   }
 }
