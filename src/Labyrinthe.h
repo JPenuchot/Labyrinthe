@@ -1,6 +1,7 @@
 #pragma once
 
 #include <set>
+#include <queue>
 #include <vector>
 #include <iostream>
 
@@ -56,6 +57,8 @@ public:
 
   inline int dist_to_treasure  (int i, int j)  { return distmap[i * w + j]; }
 
+  void findPath(pos_int from, pos_int to, std::queue<pos_int>& res);
+
   void dump();
 
   /**
@@ -76,7 +79,7 @@ public:
   bool remove (Chasseur* c);
   bool remove (Gardien* g);
   bool remove (Box* b);
-  bool remove(Wall* w);
+  bool remove (Wall* w);
 
   /**
    * @brief      Retire un élément du labyrinthe.
