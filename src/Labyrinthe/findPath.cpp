@@ -16,7 +16,7 @@ void findPath(pos_int from, pos_int to, queue<pos_int>& res)
   map<pos_int, int> costMap;
 
   //  Comparateur (coût + heuristique d'une arête)
-  auto cmp = [&](pos_int a, pos_int b)
+  auto cmp = [&](pos_int& a, pos_int& b)
     { return (costMap[a] + h(a, from)) - (costMap[b] + h(b, from)); };
 
   //  Queue
@@ -57,6 +57,26 @@ void findPath(pos_int from, pos_int to, queue<pos_int>& res)
     }
   }
 
-  //  Backtrack : on part de from et on remonte jusqu'à to
+  //  Backtrack : on part de from et on remonte jusqu'à "to"
 
+  auto next = from;
+  while(next != to)
+  {
+    res.push(next);
+
+    array<pos_int, 4> neighbors =
+      { make_pair( next.first + 1 , next.second )
+      , make_pair( next.first - 1 , next.second )
+      , make_pair( next.first     , next.second + 1 )
+      , make_pair( next.first     , next.second - 1 )
+      };
+
+    auto curr_cost = costMap[next];
+
+    for(auto& n : neighbors)
+    {
+      if(costMap.find(n) != costMap.end() && costMap[n] < costMap[next])
+        next = n;
+    }
+  }
 }
