@@ -132,6 +132,6 @@ template <> Box*      findInLab (Labyrinthe& lab, double x, double y);
  * HELPERS
  */
 
-inline pos_int playerToIJ(pos_float& p)
+inline pos_int playerPosToIJ(pos_float& p)
   { return make_pair( p.second / Environnement::scale
                     , p.first  / Environnement::scale ); }

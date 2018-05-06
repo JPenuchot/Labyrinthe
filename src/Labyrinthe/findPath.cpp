@@ -8,6 +8,10 @@ using namespace std;
 
 bool Labyrinthe::findPath(pos_int from, pos_int to, queue<pos_int>& res)
 {
+  /**
+   * Implémentation de l'algorithme A*
+   */
+
   //  Retourne les 4 voisins d'une position
   auto neighborsOf = [](pos_int& p)
   {
@@ -21,14 +25,18 @@ bool Labyrinthe::findPath(pos_int from, pos_int to, queue<pos_int>& res)
 
   //  Heuristique
   auto h = [](pos_int& a, pos_int& b)
-    { return abs(b.first - a.first) + abs(b.second - a.second); };
+  {
+    float dx = b.first - a.first;
+    float dy = b.second - a.second;
+    return (dx * dx) + (dy * dy);
+  };
 
   //  Stockage des coûts
   map<pos_int, int> costMap;
 
   //  Comparateur (coût + heuristique d'une arête)
   auto cmp = [&](pos_int& a, pos_int& b)
-    { return (costMap[a] + h(a, from)) - (costMap[b] + h(b, from)); };
+    { return (costMap[a] + h(a, from)) > (costMap[b] + h(b, from)); };
 
   //  Queue
   priority_queue<pos_int, vector<pos_int>, decltype(cmp)> q(cmp);
@@ -51,8 +59,9 @@ bool Labyrinthe::findPath(pos_int from, pos_int to, queue<pos_int>& res)
 
     for(auto& n : neighbors)
     {
-      //  On saute les éléments déjà vus
-      if ( !isValid(n) || costMap.find(n) != costMap.end() || !this->walkable(n) )
+      //  On saute les murs et les éléments déjà vus
+      if(   !isValid(n) || (!this->walkable(n))
+        ||  costMap.find(n) != costMap.end() )
         continue;
 
       //  On définit le coût du sommet (de la case)
@@ -83,7 +92,7 @@ bool Labyrinthe::findPath(pos_int from, pos_int to, queue<pos_int>& res)
     auto neighbors = neighborsOf(next);
 
     for(auto& n : neighbors)
-      if( costMap.find(n) != costMap.end() && costMap[n] < costMap[next] )
+      if( costMap.find(n) != costMap.end() && costMap[n] <= costMap[next] )
         next = n;
   }
 

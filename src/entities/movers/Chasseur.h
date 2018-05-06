@@ -56,4 +56,6 @@ public:
    */
   void hit();
   void die();
+
+  void right_click (bool shift, bool control) { message("pute"); }
 };

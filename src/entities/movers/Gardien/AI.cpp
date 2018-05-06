@@ -17,11 +17,25 @@ using namespace std;
 void Gardien::update ()
 {
   if(!this->path_to_follow.empty())
+  {
     followPath();
+  }
   else
   {
+    queue<pos_int> path_to_player;
+
     this->lab->findPath ( this->get_pos_int() , this->lab->getPlayerPos()
                         , this->path_to_follow);
+
+    for(int i = 0; i < 5; i++)
+    {
+      if(path_to_player.empty()) break;
+      else
+      {
+        this->path_to_follow.push(path_to_player.front());
+        path_to_player.pop();
+      }
+    }
   }
 }
 
@@ -78,14 +92,25 @@ void Gardien::setRandomDest()
 
 void Gardien::followPath()
 {
-  auto curr_pos = make_pair ( (int)(this->_y / Environnement::scale)
-                            , (int)(this->_x / Environnement::scale) );
+  auto dist2 = [](pos_float a, pos_float b) -> float
+    {
+      auto dx = a.first - b.first;
+      auto dy = a.second - b.second;
+      return (dx * dx) + (dy * dy);
+    };
 
-  auto& curr_dest = this->path_to_follow.front();
+  auto curr_pos = make_pair ( (this->_y / Environnement::scale)
+                            , (this->_x / Environnement::scale) );
+
+  auto& curr_dest_ = this->path_to_follow.front();
+  auto curr_dest = make_pair(curr_dest_.first + .5f, curr_dest_.second + .5f);
 
   //  Cas où on a atteint la destination
-  if (curr_pos == curr_dest)
+  if (dist2(curr_pos, curr_dest) < .5)
+  {
     this->path_to_follow.pop();
+    cout << this << " : ting goes pop\n";
+  }
 
   //  Sinon...
   else
@@ -93,14 +118,22 @@ void Gardien::followPath()
     float di = curr_dest.first  - curr_pos.first;
     float dj = curr_dest.second - curr_pos.second;
 
-    float inv_norm = 1.f / sqrt((di * di) + (dj * dj));
+    float norm = sqrt((di * di) + (dj * dj));
 
-    float dx = dj * inv_norm * Environnement::scale * Gardien::speed;
-    float dy = di * inv_norm * Environnement::scale * Gardien::speed;
+    float dx = (dj / norm) * Environnement::scale * Gardien::speed;
+    float dy = (di / norm) * Environnement::scale * Gardien::speed;
+
+    dx = abs(dj) < abs(dx) ? dj : dx;
+    dy = abs(di) < abs(dy) ? di : dy;
+
+    cout << this << " : ( " << dx << " ; " << dy << " )\n";
 
     //  On réinitialise la navigation dès lors qu'on ne peut plus bouger
     if(!move(dx, dy))
+    {
+      cout << this << "FUCK\n";
       this->path_to_follow = {};
+    }
   }
 }
 
