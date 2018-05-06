@@ -61,8 +61,10 @@ public:
   int width  () { return w; }
   int height () { return h; }
 
-  inline auto walkable(int i, int j) { return walkMap[i * w + j]; }
-  inline auto walkable(pos_int& p)   { return walkMap[p.first * w + p.second]; }
+  inline std::vector<bool>::reference walkable(int i, int j)
+    { return walkMap[i * w + j]; }
+  inline std::vector<bool>::reference walkable(pos_int& p)
+    { return walkMap[p.first * w + p.second]; }
 
   void refreshWalkMap();
 

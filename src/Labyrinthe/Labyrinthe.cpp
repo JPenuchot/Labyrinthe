@@ -153,10 +153,13 @@ Labyrinthe::Labyrinthe (char* filename)
   copy(movers_vec.begin(), movers_vec.end(), this->_guards);
 
   /*
-   *    EXTRAS
+   *    DISMAP/WALKMAP
    */
 
-  //  Generation de la map de distance
+  //  Génération de la map de collision
+  this->walkMap.resize(this->width() * this->height(), true);
+  this->refreshWalkMap();
 
+  //  Generation de la map de distance
   labyrinth::mapgen::distmap(*this, this->distmap);
 }

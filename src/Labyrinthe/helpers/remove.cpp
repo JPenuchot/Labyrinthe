@@ -60,6 +60,7 @@ bool Labyrinthe::remove(Box* b)
 
   //  Appel de reconfigure pour rafaîchir la map...
   this->reconfigure();
+  this->refreshWalkMap();
 
   return true;
 }
@@ -80,6 +81,7 @@ bool Labyrinthe::remove(Wall* w)
 
   //  Appel de reconfigure pour rafaîchir la map...
   this->reconfigure();
+  this->refreshWalkMap();
 
   return true;
 }
