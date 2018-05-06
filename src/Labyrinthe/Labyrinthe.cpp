@@ -112,8 +112,6 @@ Labyrinthe::Labyrinthe (char* filename)
   this->w = labwidth;
   this->h = labheight;
 
-  this->table.resize(labwidth * labheight, Element::empty);
-
   /*
    *    GENERATION DE LA MAP
    */
