@@ -37,11 +37,12 @@ Binôme :
 
 Nous avons utilisé intensivement la STL dans tout le programme : lambdas, fonctions templates, std::regex. L'accent a donc été mis sur la qualité et la lisibilité du code.
 
-L'algorithme de pathfinding illustre cet exemple : l'algorithme repose sur la structure std::priority_queue qui implémente un tas paramétrable par le type contenu et la fonction de comparaison. La fonction de comparaison, elle, compare de manière dynamique non pas le coût d'un chemin (comme dans Dijkstra) mais directement la somme du coût du chemin et de l'heuristique (minimisante). Grâce à l'utilisation de ce comparateur, d'une std::map pour stocker les coûts (accès à coût logarithmique).
+L'algorithme de pathfinding illustre cet exemple : l'algorithme repose sur la structure std::priority_queue qui implémente un tas paramétrable par le type contenu et la fonction de comparaison. La fonction de comparaison, elle, compare de manière dynamique non pas le coût d'un chemin (comme dans Dijkstra) mais directement la somme du coût du chemin et de l'heuristique (minimisante).
 
 Dans mapgen également, les lambdas sont utilisées de manière intensive pour nommer des actions répétées à travers l'algorithme au début de la fonction, pour avoir un "coeur algorithmique" plus clair et concis par la suite.
 
 Les lambdas permettent donc de décrire des actions locales de manière plus légère et contextuelle que des fonctions externes, permettant de rendre les algorithmes plus clairs, d'éviter des bugs (en factorisant) et optimisés (les lambdas sont très bien optimisées par le compilateur, le plus souvent inlinées).
 
-### Clareté du code
+### Autres
 
+Nous nous sommes rendus compte que Environnement::data(i, j) n'était jamais linkée... Nous nous sommes donc passés.
