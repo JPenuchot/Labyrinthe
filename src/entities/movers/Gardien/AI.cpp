@@ -87,7 +87,6 @@ void Gardien::setRandomDest()
   }
 
   this->lab->findPath(this->get_pos_int(), prev_pos, this->path_to_follow);
-  message("New destination : %d, %d", prev_pos.first, prev_pos.second);
 }
 
 void Gardien::followPath()
@@ -107,10 +106,7 @@ void Gardien::followPath()
 
   //  Cas où on a atteint la destination
   if (dist2(curr_pos, curr_dest) < .5)
-  {
     this->path_to_follow.pop();
-    cout << this << " : ting goes pop\n";
-  }
 
   //  Sinon...
   else
@@ -126,14 +122,8 @@ void Gardien::followPath()
     dx = abs(dj) < abs(dx) ? dj : dx;
     dy = abs(di) < abs(dy) ? di : dy;
 
-    cout << this << " : ( " << dx << " ; " << dy << " )\n";
-
     //  On réinitialise la navigation dès lors qu'on ne peut plus bouger
-    if(!move(dx, dy))
-    {
-      cout << this << "FUCK\n";
-      this->path_to_follow = {};
-    }
+    if(!move(dx, dy)) this->path_to_follow = {};
   }
 }
 
