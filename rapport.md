@@ -45,4 +45,6 @@ Les lambdas permettent donc de décrire des actions locales de manière plus lé
 
 ### Autres
 
-Nous nous sommes rendus compte que Environnement::data(i, j) n'était jamais linkée... Nous nous sommes donc passés.
+Nous nous sommes rendus compte que Environnement::data(i, j) n'était jamais linkée... Nous nous en sommes donc passés.
+
+Le code à été documenté le plus possible afin de pouvoir offrir la meilleur lisibilité et compréhension possible.
