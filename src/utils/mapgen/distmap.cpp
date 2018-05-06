@@ -46,7 +46,7 @@ namespace labyrinth::mapgen
     access_res(init_pos) = 0;
     access_visited(init_pos) = true;
 
-    //  DFS
+    //  BFS
 
     while(!pos_queue.empty())
     {
