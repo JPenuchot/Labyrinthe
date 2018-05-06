@@ -58,7 +58,6 @@ public:
 
   void followPath     ();
   void setRandomDest  ();
-  void moveRandomly   ();
 
   void followPath(std::queue<pos_int>& path);
 };

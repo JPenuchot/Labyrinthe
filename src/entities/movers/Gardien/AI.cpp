@@ -15,7 +15,15 @@ using namespace std;
  * @brief      Update du gardien et point d'entrée pour la partie AI du projet
  */
 void Gardien::update ()
-  { if(!this->path_to_follow.empty()) followPath(); }
+{
+  if(!this->path_to_follow.empty())
+    followPath();
+  else
+  {
+    this->lab->findPath ( this->get_pos_int() , this->lab->getPlayerPos()
+                        , this->path_to_follow);
+  }
+}
 
 void Gardien::setRandomDest()
 {
@@ -90,8 +98,9 @@ void Gardien::followPath()
     float dx = dj * inv_norm * Environnement::scale * Gardien::speed;
     float dy = di * inv_norm * Environnement::scale * Gardien::speed;
 
-    move(dx, dy);
-    this->lab->reconfigure();
+    //  On réinitialise la navigation dès lors qu'on ne peut plus bouger
+    if(!move(dx, dy))
+      this->path_to_follow = {};
   }
 }
 
