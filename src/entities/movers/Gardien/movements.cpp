@@ -30,6 +30,7 @@ inline bool Gardien::move_aux (double dx, double dy)
     int val3 = val2*180/M_PI;
     cout << val3 << endl;
     this->_angle = val3;
+    
     // this->_angle = 180;
 
     return true;

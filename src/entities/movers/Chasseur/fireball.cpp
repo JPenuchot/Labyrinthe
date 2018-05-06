@@ -16,7 +16,7 @@ bool Chasseur::process_fireball(float dx, float dy)
   float x = ( _fb->get_x() + dx ) * is;
   float y = ( _fb->get_y() + dy ) * is;
 
-  //  Lorsqu'on touche un chasseur...
+  //  Lorsqu'on touche un guardien...
   auto detectGuardianCollision = [&]()
   {
     Gardien* gar = findInLab<Gardien>(*lab, x, y);
@@ -39,6 +39,7 @@ bool Chasseur::process_fireball(float dx, float dy)
     return false;
   };
 
+  // Lorsqu'on touche une caisse...
   auto detectBoxCollision = [&]()
   {
     Box* box = findInLab<Box>(*lab, x, y);
