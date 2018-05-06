@@ -48,8 +48,12 @@ public:
    *    GAMEPLAY
    */
 
+  float getLife();
+  void setLife(float decrease);
+
   /**
    * @brief      Le chasseur se fait tirer dessus
    */
   void hit();
+  void die();
 };
