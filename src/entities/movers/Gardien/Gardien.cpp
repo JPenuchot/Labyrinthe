@@ -13,3 +13,11 @@ Mover(x, y, l, modmarv), lab(l) {}
  * @param[in]  control  Vrai si CONTROL pressée
  */
 void Gardien::right_click (bool shift, bool control){ message("Right click"); }
+
+float Gardien::getHealth() {
+	return this->health;
+}
+
+void Gardien::setHealth(float decrease) {
+	this->health -= decrease;
+}

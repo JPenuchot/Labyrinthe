@@ -8,12 +8,13 @@ using namespace std;
 void Gardien::hit()
 {
   message("Guardian hit !");
-  this->die();
+  this->setHealth(4);
+  if(this->getHealth() <= 0) this->die();
 }
 
 void Gardien::die()
 {
-  message("F");
+  message("Guardian is die");
   this->lab->remove(this);
   delete this;
 }
