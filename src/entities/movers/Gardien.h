@@ -20,7 +20,7 @@ class Gardien : public Mover
   //  Navigation
   std::queue<pos_int> path_to_follow;
 
-  int health = 12;
+  float health = 12.f;
 
   std::random_device rd;
 
@@ -45,10 +45,10 @@ public:
    *    GAMEPLAY - Defined in ./Gardien/gameplay.cpp
    */
 
-  float getHealth();
-  void setHealth(float decrease);
-  void hit();
-  void die();
+  float getHealth()           { return this->health; }
+  void  setHealth(float val)  { this->health = val; }
+  void  hit();
+  void  die();
 
   /*
    * AI

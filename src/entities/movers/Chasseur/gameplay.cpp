@@ -8,13 +8,13 @@ using namespace std;
 void Chasseur::hit()
 {
   message("Hunter hit !");
-  this->setLife(10);
-  if(this->getLife() <= 0) this->die();
+  this->setHealth(this->getHealth() - 10.f);
+  if(this->getHealth() <= 0) this->die();
 }
 
 void Chasseur::die()
 {
-	message("Hunter is die ! ");
+	message("Hunter died !");
 	this->lab->remove(this);
 	delete this;
 }

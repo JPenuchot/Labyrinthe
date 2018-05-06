@@ -19,7 +19,7 @@ private:
   //  on n'est pas des animaux...)
   Labyrinthe* lab;
 
-  float life = 100.f;
+  float health = 100.f;
 
 public:
   /*
@@ -48,8 +48,8 @@ public:
    *    GAMEPLAY
    */
 
-  float getLife();
-  void setLife(float decrease);
+  float getHealth()           { return this->health; }
+  void  setHealth(float val)  { this->health = val; }
 
   /**
    * @brief      Le chasseur se fait tirer dessus
