@@ -24,14 +24,7 @@ inline bool Gardien::move_aux (double dx, double dy)
 
     cout << "(" << _x << "," << _y << ")" << endl;
 
-    float val = atan2(this->get_pos_int().first, this->lab->getPlayerPos().first);
-    float val2 = atan2(this->get_pos_int().second, this->lab->getPlayerPos().second);
-    val2 += val;
-    int val3 = val2*180/M_PI;
-    cout << val3 << endl;
-    this->_angle = val3;
-    
-    // this->_angle = 180;
+    this->_angle = ((atan2(dx, dy) * M_PI) / (2.f * M_PI)) * 360.f;
 
     return true;
   }

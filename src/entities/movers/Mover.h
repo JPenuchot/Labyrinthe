@@ -26,27 +26,27 @@ public:
   , _x ((float)x), _y ((float)y)
   , _angle(0)
     { _model = init(modele); }
-  
+
   virtual ~Mover() {}
-  
+
   // Fait tomber un personnage (gardien) et se relever
   void tomber();
-  
+
   // Fait tomber un personnage (gardien) et le laisse au sol.
   void rester_au_sol();
-  
+
   // Fait 'penser' le personnage (gardien).
-  virtual void update (void) {};
-  
+  virtual void update (void) {}
+
   // Fait bouger la boule de feu du personnage.
   virtual bool process_fireball (float dx, float dy) { return false; }
-  
+
   // Tente de deplacer le personnage de <dx,dy>.
   virtual bool move (double dx, double dy) { return false; }
-  
+
   // Fait tirer le personnage sur un ennemi
   // (vous pouvez ignorer l'angle vertical).
-  virtual void fire (int angle_vertical) {};
+  virtual void fire (int angle_vertical) {}
 
   // Appelee pour le gardien 0 (chasseur) quand l'utilisateur fait un clic droit
   // Shift (control) est vrai si la touche shift (control) est appuyee.
