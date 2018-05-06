@@ -32,9 +32,6 @@ namespace labyrinth::mapgen
     auto access_visited = [&](pos_t p) -> vector<bool>::reference
       { return visited[pos_to_id(p)]; };
 
-    auto access_lab     = [&](pos_t p) -> vector<char>::reference
-      { return lab(p.first, p.second); };
-
     /*
      *  ALGORITHME
      */
@@ -72,7 +69,7 @@ namespace labyrinth::mapgen
         //  On filtre les murs et on ne depasse pas les bornes
         if ( !( 0 <= n.first  && n.first  < lab.height() )
           || !( 0 <= n.second && n.second < lab.width()  )
-          || lab.isWall(access_lab(n))
+          || !lab.walkable(n)
           || access_visited(n)
            )
           continue;

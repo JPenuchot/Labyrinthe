@@ -53,7 +53,7 @@ bool Labyrinthe::remove(Box* b)
   if(pos == boxes_end) return false;
 
   //  On retire dans la map
-  (*this)(b->_y, b->_x) = Element::empty;
+  this->walkable(b->_y, b->_x) = true;
 
   //  On retire dans le tableau de Environnement (en décalant tout)
   copy(pos + 1, boxes_end, pos);
@@ -73,12 +73,7 @@ bool Labyrinthe::remove(Wall* w)
   if(pos == walls_end) return false;
 
   //  On retire les traces du mur dans la map
-  if(w->_y1 == w->_y2)
-    for(int j = w->_x1; j <= w->_x2; j++)
-      (*this)(w->_y1, j) = Element::empty;
-  else
-    for(int i = w->_y1; i <= w->_y2; i++)
-      (*this)(i, w->_x1) = Element::empty;
+  this->refreshWalkMap();
 
   //  On retire dans le tableau de Environnement (en décalant tout)
   copy(pos + 1, walls_end, pos);

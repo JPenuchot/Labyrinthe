@@ -3,9 +3,6 @@
 
 using namespace std;
 
-/*
- *  Tente un deplacement.
- */
 bool Chasseur::move_aux (double dx, double dy)
 {
   auto i = _y / (double)Environnement::scale;
@@ -17,10 +14,7 @@ bool Chasseur::move_aux (double dx, double dy)
   auto ni = ny / (double)Environnement::scale;
   auto nj = nx / (double)Environnement::scale;
 
-  auto& curr_cell = (*lab)( i,  j);
-  auto& next_cell = (*lab)(ni, nj);
-
-  if(!lab->isWall(next_cell))
+  if(lab->walkable(ni, nj))
   {
     //  Update de la position
     _x = nx;
@@ -30,3 +24,6 @@ bool Chasseur::move_aux (double dx, double dy)
   }
   return false;
 }
+
+bool Chasseur::move (double dx, double dy)
+  { return move_aux (dx, dy) || move_aux (dx, 0.0) || move_aux (0.0, dy); }

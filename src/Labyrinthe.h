@@ -35,6 +35,7 @@ using hit_info_t = Element;
 class Labyrinthe : public Environnement {
 private:
   vector<char>  table;
+  vector<bool>  walkMap;
   vector<int>   distmap;
 
   set<char> text_ids;
@@ -46,73 +47,58 @@ private:
   size_t h;
 
 public:
-  Labyrinthe (char*);
+  /*
+   *  CONSTRUCTEUR/DESTRUCTEUR
+   */
+
+   Labyrinthe (char*);
+  ~Labyrinthe () {}
+
+  /*
+   *  PLATEAU/WALKMAP
+   */
 
   int width  () { return w; }
   int height () { return h; }
 
-  inline char& operator()      (int i, int j)  { return table[i * w + j]; }
-  inline char& operator()      (pos_int& pos_ij)
-    { return table[pos_ij.first * w + pos_ij.second]; }
+  inline auto walkable(int i, int j) { return walkMap[i * w + j]; }
+  inline auto walkable(pos_int& p)   { return walkMap[p.first * w + p.second]; }
 
-  inline int dist_to_treasure  (int i, int j)  { return distmap[i * w + j]; }
+  void refreshWalkMap();
 
-  bool findPath(pos_int from, pos_int to, std::queue<pos_int>& res);
-
-  void dump();
-
-  /**
-   * @brief      Dans le cas d'une collision, permet de trouver
-   * l'objet touche a la case (i,j) (type renseigne par la map)
-   *
-   * @param[in]  i     Hauteur
-   * @param[in]  j     Largeur
-   *
-   * @tparam     T     Type de l'objet recherche
-   *
-   * @return     Pointeur vers l'objet recherche,
-   * nullptr si rien trouve.
+  /*
+   *  RECHERCHE D'ÉLÉMENTS
    */
+
   template <typename T>
   friend T* findInLab (Labyrinthe& lab, double x, double y);
+
+  /*
+   *  AJOUT/RETRAIT D'ÉLÉMENTS
+   */
 
   bool remove (Chasseur* c);
   bool remove (Gardien* g);
   bool remove (Box* b);
   bool remove (Wall* w);
 
-  inline pos_int getPlayerPos()
-  {
-    return std::make_pair ( (int)(this->hunters[0]->_y / Environnement::scale)
-                          , (int)(this->hunters[0]->_x / Environnement::scale)
-                          );
-  }
-
-  /**
-   * @brief      Retire un élément du labyrinthe.
-   *
-   * @param      e          Élément à retirer
-   *
-   * @tparam     T          Type de l'élément
-   *
-   * @return     true si succès sinon false.
+  /*
+   *  NAVIGATION
    */
-  template <typename T>
-  friend bool removeFromLab(Labyrinthe& lab, T* e);
 
-  ~Labyrinthe() { }
+  inline int dist_to_treasure  (int i, int j)  { return distmap[i * w + j]; }
+  bool findPath(pos_int from, pos_int to, std::queue<pos_int>& res);
 
-  inline bool isWall(char e)
-  {
-    return e == Element::wall_corner
-        || e == Element::wall_horizontal
-        || e == Element::wall_vertical
-        || e == Element::box
-        || e == Element::treasure
-        || text_ids.find(e) != text_ids.end()
-        ;
-  }
+  /*
+   *  DEBUG
+   */
+
+  void dump();
 };
+
+/*
+ *  FONCTIONS FRIEND
+ */
 
 template <typename T>
 T* findInLab (Labyrinthe& lab, double x, double y) { return nullptr; }
@@ -121,3 +107,11 @@ template <> Chasseur* findInLab (Labyrinthe& lab, double x, double y);
 template <> Gardien*  findInLab (Labyrinthe& lab, double x, double y);
 template <> Wall*     findInLab (Labyrinthe& lab, double x, double y);
 template <> Box*      findInLab (Labyrinthe& lab, double x, double y);
+
+/*
+ * HELPERS
+ */
+
+inline pos_int playerToIJ(pos_float& p)
+  { return make_pair( p.second / Environnement::scale
+                    , p.first  / Environnement::scale ); }

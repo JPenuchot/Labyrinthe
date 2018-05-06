@@ -20,8 +20,8 @@ void Gardien::update ()
     followPath();
   else
   {
-    this->lab->findPath ( this->get_pos_int() , this->lab->getPlayerPos()
-                        , this->path_to_follow);
+    //this->lab->findPath ( this->get_pos_int() , this->lab->getPlayerPos()
+    //                    , this->path_to_follow);
   }
 }
 
@@ -60,7 +60,7 @@ void Gardien::setRandomDest()
   auto prev_pos = new_pos;
 
   //  machin et tout
-  while(prob_dist(gen) > .01 && !lab->isWall((*lab)(new_pos)))
+  while(prob_dist(gen) > .01 && lab->walkable(new_pos))
   {
     dist += .1f;
 

@@ -38,6 +38,11 @@ namespace labyrinth::mapgen
 
     const auto& s = Environnement::scale;
 
+    vector<char> charMap(lab.width() * lab.height(), Element::empty);
+
+    auto accessCharMap = [&](size_t i, size_t j) -> vector<char>::reference
+      { return charMap[i * lab.width() + j]; };
+
     /*
      *    1/ PRE-DEFINITION DES ACTIONS
      */
@@ -121,7 +126,7 @@ namespace labyrinth::mapgen
       {
         const char curr_char = mapvec[i][j];
 
-        lab(i, j) = curr_char;
+        accessCharMap(i, j) = curr_char;
 
         //    2.1/ GESTION DES MURS/AFFICHES
 
@@ -166,7 +171,7 @@ namespace labyrinth::mapgen
     {
       for(size_t i = 0; i < lab.height(); i++)
       {
-        const char curr_char = lab(i, j);
+        const char curr_char = accessCharMap(i, j);
 
         //  A la rencontre d'un coin de mur...
         if (curr_char == Element::wall_corner) visitCorner(i, j);

@@ -32,8 +32,7 @@ public:
   Chasseur (int x, int y, Labyrinthe* l);
 
   // Ne bouger que dans une case vide (on 'glisse' le long des obstacles)
-  bool move (double dx, double dy)
-    { return move_aux (dx, dy) || move_aux (dx, 0.0) || move_aux (0.0, dy); }
+  bool move (double dx, double dy);
 
   //  Le chasseur ne pense pas!
   void update (void) {};
