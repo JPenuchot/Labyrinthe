@@ -1,5 +1,11 @@
+#include <cmath>
+
 #include "../Gardien.h"
 #include "../../../Labyrinthe.h"
+
+#ifndef M_PI
+  #define M_PI  3.141592653589793238462643383279502884 /* pi */
+#endif
 
 using namespace std;
 
@@ -15,6 +21,16 @@ inline bool Gardien::move_aux (double dx, double dy)
   {
     _x = nx;
     _y = ny;
+
+    cout << "(" << _x << "," << _y << ")" << endl;
+
+    float val = atan2(this->get_pos_int().first, this->lab->getPlayerPos().first);
+    float val2 = atan2(this->get_pos_int().second, this->lab->getPlayerPos().second);
+    val2 += val;
+    int val3 = val2*180/M_PI;
+    cout << val3 << endl;
+    this->_angle = val3;
+    // this->_angle = 180;
 
     return true;
   }
