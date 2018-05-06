@@ -16,6 +16,12 @@ inline bool Chasseur::move_aux (double dx, double dy)
     _x = nx;
     _y = ny;
 
+    if(this->lab->getPlayerPos().first == this->lab->getTreasurePos().first
+    && this->lab->getPlayerPos().second == this->lab->getTreasurePos().second
+      )
+      exit(0);
+
+
     return true;
   }
   return false;
