@@ -18,3 +18,12 @@ lab(l)
   if(!_hunter_hit)  _hunter_hit   = new Sound ("sons/hunter_hit.wav");
   if(!_wall_hit)    _wall_hit     = new Sound ("sons/hit_wall.wav");
 }
+
+float Chasseur::getLife() {
+	return this->life;
+}
+
+void Chasseur::setLife(float decrease) {
+	this->life -= decrease;
+}
+
