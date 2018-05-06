@@ -13,7 +13,7 @@ set( CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3" )
 
 # Adding include directory for audio
 
-include_directories( "ext/fmod/4.3" "ext/cpp-sak/include")
+include_directories( "ext/fmod/4.3" )
 
 # Linking libraries
 
@@ -33,7 +33,4 @@ set_source_files_properties( ${OBJS} PROPERTIES
 file(GLOB_RECURSE SOURCES "src/*.cpp")
 
 # Final executable
-add_executable( cstrike64
-  ${OBJS}
-  ${SOURCES}
-)
+add_executable(cstrike64 ${OBJS} ${SOURCES})
