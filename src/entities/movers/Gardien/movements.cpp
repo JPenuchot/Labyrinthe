@@ -22,8 +22,6 @@ inline bool Gardien::move_aux (double dx, double dy)
     _x = nx;
     _y = ny;
 
-    cout << "(" << _x << "," << _y << ")" << endl;
-
     this->_angle = ((atan2(dx, dy) * M_PI) / (2.f * M_PI)) * 360.f;
 
     return true;
