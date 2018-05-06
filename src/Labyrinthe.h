@@ -75,6 +75,16 @@ public:
   template <typename T>
   friend T* findInLab (Labyrinthe& lab, double x, double y);
 
+  inline pos_int getPlayerPos()
+  {
+    auto& hun = this->hunters[0];
+    return make_pair( hun->_y / Environnement::scale
+                    , hun->_x / Environnement::scale);
+  }
+
+  inline pos_int getTreasurePos()
+    { return make_pair(this->_treasor._y, this->_treasor._x); }
+
   /*
    *  AJOUT/RETRAIT D'ÉLÉMENTS
    */
@@ -96,6 +106,14 @@ public:
    */
 
   void dump();
+
+  /*
+   *  MISC
+   */
+
+  inline bool isValid(pos_int& p)
+  { return p.first  >= 0 && p.first  < this->h
+        && p.second >= 0 && p.second < this->w; }
 };
 
 /*

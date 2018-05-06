@@ -22,7 +22,4 @@ void Labyrinthe::refreshWalkMap()
   //  Boxes
 	for_each(this->_boxes, this->_boxes + this->_nboxes, [&](auto b)
     { this->walkable(b._y, b._x) = false; });
-
-  //  Trésor
-	this->walkable(this->_treasor._y, this->_treasor._x) = false;
 }

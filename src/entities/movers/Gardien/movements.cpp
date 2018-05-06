@@ -5,14 +5,11 @@ using namespace std;
 
 inline bool Gardien::move_aux (double dx, double dy)
 {
-  auto i = _y / (double)Environnement::scale;
-  auto j = _x / (double)Environnement::scale;
+  double nx = _x + dx;
+  double ny = _y + dy;
 
-  auto nx = (_x + dx);
-  auto ny = (_y + dy);
-
-  auto ni = ny / (double)Environnement::scale;
-  auto nj = nx / (double)Environnement::scale;
+  int ni = ny / (double)Environnement::scale;
+  int nj = nx / (double)Environnement::scale;
 
   if(lab->walkable(ni, nj))
   {

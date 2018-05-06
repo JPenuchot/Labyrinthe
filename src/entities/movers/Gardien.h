@@ -28,7 +28,7 @@ public:
   Gardien(int x, int y, Labyrinthe* l);
   ~Gardien () {}
 
-  inline static float speed = 10.f;
+  inline static float speed = .1f;
 
   bool move             (double dx, double dy);
   bool move_aux         (double dx, double dy);

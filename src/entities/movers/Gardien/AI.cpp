@@ -20,8 +20,8 @@ void Gardien::update ()
     followPath();
   else
   {
-    //this->lab->findPath ( this->get_pos_int() , this->lab->getPlayerPos()
-    //                    , this->path_to_follow);
+    this->lab->findPath ( this->get_pos_int() , this->lab->getPlayerPos()
+                        , this->path_to_follow);
   }
 }
 

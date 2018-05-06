@@ -52,7 +52,7 @@ bool Labyrinthe::findPath(pos_int from, pos_int to, queue<pos_int>& res)
     for(auto& n : neighbors)
     {
       //  On saute les éléments déjà vus
-      if ( costMap.find(n) != costMap.end() || !this->walkable(n) )
+      if ( !isValid(n) || costMap.find(n) != costMap.end() || !this->walkable(n) )
         continue;
 
       //  On définit le coût du sommet (de la case)

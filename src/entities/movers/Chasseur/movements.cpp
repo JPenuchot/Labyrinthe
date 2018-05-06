@@ -3,20 +3,16 @@
 
 using namespace std;
 
-bool Chasseur::move_aux (double dx, double dy)
+inline bool Chasseur::move_aux (double dx, double dy)
 {
-  auto i = _y / (double)Environnement::scale;
-  auto j = _x / (double)Environnement::scale;
+  double nx = _x + dx;
+  double ny = _y + dy;
 
-  auto nx = _x + dx;
-  auto ny = _y + dy;
-
-  auto ni = ny / (double)Environnement::scale;
-  auto nj = nx / (double)Environnement::scale;
+  int ni = ny / Environnement::scale;
+  int nj = nx / Environnement::scale;
 
   if(lab->walkable(ni, nj))
   {
-    //  Update de la position
     _x = nx;
     _y = ny;
 
