@@ -22,8 +22,7 @@ bool Chasseur::process_fireball(float dx, float dy)
     Gardien* gar = findInLab<Gardien>(*lab, x, y);
     if(!gar) return true;
 
-    message("Gotcha, Guardian !");
-    gar->hit();
+    gar->hit(); 
     return false;
   };
 
