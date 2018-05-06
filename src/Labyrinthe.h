@@ -57,7 +57,7 @@ public:
 
   inline int dist_to_treasure  (int i, int j)  { return distmap[i * w + j]; }
 
-  void findPath(pos_int from, pos_int to, std::queue<pos_int>& res);
+  bool findPath(pos_int from, pos_int to, std::queue<pos_int>& res);
 
   void dump();
 
@@ -80,6 +80,13 @@ public:
   bool remove (Gardien* g);
   bool remove (Box* b);
   bool remove (Wall* w);
+
+  inline pos_int getPlayerPos()
+  {
+    return std::make_pair ( (int)(this->hunters[0]->_y / Environnement::scale)
+                          , (int)(this->hunters[0]->_x / Environnement::scale)
+                          );
+  }
 
   /**
    * @brief      Retire un élément du labyrinthe.

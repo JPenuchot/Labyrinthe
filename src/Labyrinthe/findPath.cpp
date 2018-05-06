@@ -6,7 +6,7 @@
 
 using namespace std;
 
-void Labyrinthe::findPath(pos_int from, pos_int to, queue<pos_int>& res)
+bool Labyrinthe::findPath(pos_int from, pos_int to, queue<pos_int>& res)
 {
   //  Retourne les 4 voisins d'une position
   auto neighborsOf = [](pos_int& p)
@@ -39,7 +39,7 @@ void Labyrinthe::findPath(pos_int from, pos_int to, queue<pos_int>& res)
   costMap[to] = 0;
 
   //  L'algo
-  while(!q.empty() && costMap.find(from) == costMap.end())
+  while((!q.empty()) && costMap.find(from) == costMap.end())
   {
     auto curr_pos  = q.top();
     auto curr_cost = costMap[curr_pos];
@@ -52,7 +52,7 @@ void Labyrinthe::findPath(pos_int from, pos_int to, queue<pos_int>& res)
     for(auto& n : neighbors)
     {
       //  On saute les éléments déjà vus
-      if ( costMap.find(n) == costMap.end() || this->isWall((*this)(n)) )
+      if ( costMap.find(n) != costMap.end() || this->isWall((*this)(n)) )
         continue;
 
       //  On définit le coût du sommet (de la case)
@@ -63,6 +63,10 @@ void Labyrinthe::findPath(pos_int from, pos_int to, queue<pos_int>& res)
       q.push(n);
     }
   }
+
+  //  Si on n'a aucun chemin...
+  if(costMap.find(from) == costMap.end())
+    return false;
 
   //  Backtrack : on part de from et on remonte jusqu'à "to"
 
@@ -82,4 +86,6 @@ void Labyrinthe::findPath(pos_int from, pos_int to, queue<pos_int>& res)
       if( costMap.find(n) != costMap.end() && costMap[n] < costMap[next] )
         next = n;
   }
+
+  return true;
 }
