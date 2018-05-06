@@ -26,8 +26,7 @@ bool Labyrinthe::findPath(pos_int from, pos_int to, queue<pos_int>& res)
   //  Heuristique
   auto h = [](pos_int& a, pos_int& b)
   {
-    float dx = b.first - a.first;
-    float dy = b.second - a.second;
+    float dx = b.first - a.first, dy = b.second - a.second;
     return (dx * dx) + (dy * dy);
   };
 
@@ -36,7 +35,9 @@ bool Labyrinthe::findPath(pos_int from, pos_int to, queue<pos_int>& res)
 
   //  Comparateur (coût + heuristique d'une arête)
   auto cmp = [&](pos_int& a, pos_int& b)
-    { return (costMap[a] + h(a, from)) > (costMap[b] + h(b, from)); };
+  {
+    return (costMap[a] + h(a, from)) > (costMap[b] + h(b, from));
+  };
 
   //  Queue
   priority_queue<pos_int, vector<pos_int>, decltype(cmp)> q(cmp);
