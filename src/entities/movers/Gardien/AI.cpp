@@ -16,10 +16,12 @@ using namespace std;
  */
 void Gardien::update ()
 {
+  //  On suit le chemin si on en a un
   if(!this->path_to_follow.empty())
-  {
     followPath();
-  }
+
+  //  Sinon on définit un chemin vers le joueur
+  //  et on suit les 5 premiers déplacements
   else
   {
     queue<pos_int> path_to_player;
