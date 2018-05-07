@@ -16,6 +16,7 @@ inline bool Chasseur::move_aux (double dx, double dy)
     _x = nx;
     _y = ny;
 
+    //  Fin du jeu
     if(this->lab->getPlayerPos() == this->lab->getTreasurePos())
       exit(0);
 
