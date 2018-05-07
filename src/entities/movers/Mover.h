@@ -9,7 +9,7 @@ class Mover {
 private:
   static void*  init (const char*); // Initialise le modele md2.
 public:
-  Environnement*  _l;    // Le labyrinthe dans lequel il evolue.
+  Environnement*  _l; // Le labyrinthe dans lequel il evolue.
   FireBall* _fb;      // Sa boule de feu.
   float   _x, _y;     // Position.
   int     _angle;     // Angle de deplacement/tir.

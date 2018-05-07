@@ -50,9 +50,10 @@ bool Labyrinthe::findPath(pos_int from, pos_int to, queue<pos_int>& res)
   //  L'algo
   while((!q.empty()) && costMap.find(from) == costMap.end())
   {
+    //  On défile la position (avec priority_queue et le comparateur maison,
+    //  on obtient donc celle qui a la somme coût + heuristique la plus faible)
     auto curr_pos  = q.top();
     auto curr_cost = costMap[curr_pos];
-
     q.pop();
 
     //  On définit l'ensemble des voisins
@@ -74,7 +75,7 @@ bool Labyrinthe::findPath(pos_int from, pos_int to, queue<pos_int>& res)
     }
   }
 
-  //  Si on n'a aucun chemin...
+  //  Si on n'a aucun chemin (pas trouvé from depuis to), on renvoie false
   if(costMap.find(from) == costMap.end())
     return false;
 
@@ -85,17 +86,23 @@ bool Labyrinthe::findPath(pos_int from, pos_int to, queue<pos_int>& res)
   //            enfilé dans le bon ordre)
 
   auto next = from;
+
+  //  Tant qu'on ne tombe pas sur l'origine...
   while(next != to)
   {
-    res.push(next);
-
     auto curr_cost = costMap[next];
     auto neighbors = neighborsOf(next);
 
+    //  Pour chaque voisin (sauf si non exploré) on prend celui
+    //  qui se rapproche le plus de l'origine
     for(auto& n : neighbors)
       if( costMap.find(n) != costMap.end() && costMap[n] <= costMap[next] )
         next = n;
+
+    //  On ajoute la position en cours au résultat
+    res.push(next);
   }
 
+  //  On a trouvé le chemin, on renvoie true
   return true;
 }

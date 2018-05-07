@@ -26,17 +26,18 @@ void Gardien::update ()
   {
     queue<pos_int> path_to_player;
 
+    //  Calcul du chemin
     this->lab->findPath ( this->get_pos_int() , this->lab->getPlayerPos()
                         , this->path_to_follow);
 
+    //  On ne copie que les *5 premiers déplacements* du chemin
     for(int i = 0; i < 5; i++)
     {
-      if(path_to_player.empty()) break;
-      else
-      {
-        this->path_to_follow.push(path_to_player.front());
-        path_to_player.pop();
-      }
+      if(path_to_player.empty())
+        break;
+
+      this->path_to_follow.push(path_to_player.front());
+      path_to_player.pop();
     }
   }
 }

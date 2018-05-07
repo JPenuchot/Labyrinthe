@@ -17,11 +17,19 @@ class Gardien : public Mover
 {
   Labyrinthe* lab;
 
-  //  Navigation
+  /**
+   * Stocke le chemin en cours à suivre
+   */
   std::queue<pos_int> path_to_follow;
 
+  /**
+   * Stocke la
+   */
   float health = 12.f;
 
+  /**
+   * Pour la sélection aléatoire d'une coordonnée à rejoindre
+   */
   std::random_device rd;
 
 public:
@@ -37,6 +45,11 @@ public:
   void right_click      (bool shift, bool control);
   bool process_fireball (float dx, float dy);
 
+  /**
+   * @brief      Renvoie la position d'un joueur.
+   *
+   * @return     Position du joueur en coordonnées (i, j).
+   */
   inline pos_int get_pos_int()
     { return std::make_pair ( (int)(this->_y / Environnement::scale)
                             , (int)(this->_y / Environnement::scale) ); }

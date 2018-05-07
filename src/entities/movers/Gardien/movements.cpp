@@ -19,9 +19,10 @@ inline bool Gardien::move_aux (double dx, double dy)
 
   if(lab->walkable(ni, nj))
   {
-    _x = nx;
-    _y = ny;
+    this->_x = nx;
+    this->_y = ny;
 
+    //  Update de l'angle
     this->_angle = ((atan2(dx, dy) * M_PI) / (2.f * M_PI)) * 360.f;
 
     return true;
