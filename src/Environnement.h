@@ -3,6 +3,8 @@
 #include <ostream>
 
 extern void message (const char* format, ...);
+extern void partie_terminee (bool);
+
 class Mover;
 
 struct Wall {
