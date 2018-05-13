@@ -1,11 +1,7 @@
-#include <cmath>
-
 #include "../Gardien.h"
 #include "../../../Labyrinthe.h"
 
-#ifndef M_PI
-  #define M_PI  3.141592653589793238462643383279502884 /* pi */
-#endif
+#include "../../../utils/misc.hpp"
 
 using namespace std;
 
@@ -23,7 +19,7 @@ inline bool Gardien::move_aux (double dx, double dy)
     this->_y = ny;
 
     //  Update de l'angle
-    this->_angle = ((atan2(dx, dy) * M_PI) / (2.f * M_PI)) * 360.f;
+    this->_angle = labyrinth::misc::xy_to_angle(dx, dy);
 
     return true;
   }
